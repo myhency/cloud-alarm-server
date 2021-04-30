@@ -1,8 +1,9 @@
 # cloud-alarm-server
 훈련소 알리미 서비스 백엔드
 
-## Refs
+- [Swagger 바로가기](http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config)
 
+## Refs
 
 - swagger 참조
     - [15. Open API 3.0 + Swagger v3 상세설정](https://blog.jiniworld.me/91)
