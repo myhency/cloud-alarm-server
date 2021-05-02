@@ -1,6 +1,7 @@
 package stock.alarm.cloud.analyze;
 
 import org.junit.jupiter.api.Test;
+import stock.alarm.cloud.analyze.domain.Item;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

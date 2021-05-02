@@ -1,4 +1,4 @@
-package stock.alarm.cloud.analyze;
+package stock.alarm.cloud.analyze.domain;
 
 import lombok.*;
 
