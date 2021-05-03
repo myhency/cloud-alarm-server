@@ -1,4 +1,4 @@
-package cloud.stock.item;
+package cloud.stock.stockitem;
 
 public class StockItemCreateRequest {
 }

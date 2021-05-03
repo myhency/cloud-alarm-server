@@ -1,5 +1,7 @@
-package cloud.stock.item;
+package cloud.stock.stockitem.ui;
 
+import cloud.stock.stockitem.StockItemCreateRequest;
+import cloud.stock.stockitem.infra.StockItemRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;

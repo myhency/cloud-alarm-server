@@ -1,16 +1,14 @@
 spring:
   datasource:
-    url: jdbc:h2:~/data/hlfapi
+    url: jdbc:h2:~/data/cloudstock
     username: sa
     password:
   jackson:
     deserialization:
       fail-on-unknown-properties: true
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-    open-in-view: false
+  h2:
+    console:
+      enabled: true
+logging:
+  level:
+    jdbc: trace
