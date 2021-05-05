@@ -10,3 +10,5 @@
     - [15. Open API 3.0 + Swagger v3 상세설정](https://blog.jiniworld.me/91)
 - JUnit5 참조
     - [JUnit5 알아보기](https://beomseok95.tistory.com/303)
+- JdbcTemplate pagination & sorting
+    - [Spring JdbcTemplate – Pagination Examples](https://javabydeveloper.com/spring-jdbctemplate-pagination-examples/)
