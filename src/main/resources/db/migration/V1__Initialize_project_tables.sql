@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS alarms;
+
 CREATE TABLE alarms (
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
     item_name VARCHAR(255) NOT NULL,
@@ -9,7 +11,7 @@ CREATE TABLE alarms (
     alarm_status VARCHAR(255),
     created_at DATETIME NOT NULL,
     last_updated_at DATETIME NOT NULL,
-    alarmed_at DATETIME NOT NULL,
-    losscut_at DATETIME NOT NULL,
+    alarmed_at DATETIME,
+    losscut_at DATETIME,
     PRIMARY KEY (id)
 );

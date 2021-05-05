@@ -2,6 +2,7 @@
 훈련소 알리미 서비스 백엔드
 
 - [Swagger 바로가기](http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config)
+- [H2콘솔 바로가기](http://localhost:8080/h2-console)
 
 ## Refs
 
