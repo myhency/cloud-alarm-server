@@ -20,7 +20,7 @@ import java.util.Optional;
 @Repository
 public class JdbcTemplateAlarmDao implements AlarmDao {
 
-    private static final String TABLE_NAME = "alarm";
+    private static final String TABLE_NAME = "alarms";
     private static final String KEY_COLUMN_NAME = "id";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -51,7 +51,7 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
                 "id, item_name, item_code, recommend_price, " +
                 "losscut_price, comment, theme, alarm_status, " +
                 "created_at, last_updated_at, alarmed_at, losscut_at " +
-                "FROM alarm";
+                "FROM alarms";
         return jdbcTemplate.query(sql, (resultSet, rowNumber) -> toEntity(resultSet));
     }
 
@@ -69,7 +69,7 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
                 "id, item_name, item_code, recommend_price, " +
                 "losscut_price, comment, theme, alarm_status, " +
                 "created_at, last_updated_at, alarmed_at, losscut_at " +
-                "FROM alarm " +
+                "FROM alarms " +
                 "WHERE id = (:id)";
         final SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("id", id);
@@ -77,7 +77,7 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
     }
 
     private void update(final Alarm entity) {
-        final String sql = "UPDATE alarm SET recommend_price = (:recommendPrice), losscut_price = (:losscutPrice), comment = (:comment) WHERE id = (:id)";
+        final String sql = "UPDATE alarms SET recommend_price = (:recommendPrice), losscut_price = (:losscutPrice), comment = (:comment) WHERE id = (:id)";
         final SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("recommendPrice", entity.getRecommendPrice())
                 .addValue("losscutPrice", entity.getLosscutPrice())
