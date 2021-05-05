@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS alarms;
+DROP TABLE IF EXISTS stockitems;
 
 CREATE TABLE alarms (
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -13,5 +14,15 @@ CREATE TABLE alarms (
     last_updated_at DATETIME NOT NULL,
     alarmed_at DATETIME,
     losscut_at DATETIME,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE stockitems (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    item_name VARCHAR(255) NOT NULL,
+    item_code VARCHAR(255) NOT NULL,
+    theme VARCHAR(4000),
+    created_at DATETIME,
+    last_updated_at DATETIME,
     PRIMARY KEY (id)
 );

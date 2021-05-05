@@ -31,7 +31,7 @@ public class AlarmRestController {
     @PostMapping(value = "/alarm/stockItem")
     @Operation(summary = "알람등록", description = "특정 종목의 알람설정을 합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "알람등록 성공",
+            @ApiResponse(responseCode = "201", description = "알람등록 성공",
                     content = @Content(schema = @Schema(implementation = Alarm.class))),
             @ApiResponse(responseCode = "400", description = "알람등록 실패",
                     content = @Content(schema = @Schema(implementation = InvalidParameterException.class)))
@@ -53,16 +53,16 @@ public class AlarmRestController {
     public ResponseEntity<Alarm> updateAlarm(@PathVariable final Long id, @RequestBody final Alarm alarm) {
         return ResponseEntity.ok(alarmService.changeAlarm(id, alarm));
     }
-//
-//    @GetMapping(value = "/alarm/analyzedItem/{filterString}")
-//    @Operation(summary = "알람조회", description = "특정 종목의 알람설정을 조회합니다.")
-//    public ResponseEntity selectAlarm(@PathVariable String filterString) {
-//        return ResponseEntity.ok().body(null);
-//    }
-//
-//    @DeleteMapping(value = "/alarm/analyzedItem/{filterString}")
-//    @Operation(summary = "알람삭제", description = "특정 종목의 알람설정을 삭제합니다.")
-//    public ResponseEntity deleteAlarm(@PathVariable String filterString) {
-//        return ResponseEntity.ok().body(null);
-//    }
+
+    @GetMapping(value = "/alarm/analyzedItem/{filterString}")
+    @Operation(summary = "알람조회", description = "특정 종목의 알람설정을 조회합니다.")
+    public ResponseEntity selectAlarm(@PathVariable String filterString) {
+        return ResponseEntity.ok().body(null);
+    }
+
+    @DeleteMapping(value = "/alarm/analyzedItem/{filterString}")
+    @Operation(summary = "알람삭제", description = "특정 종목의 알람설정을 삭제합니다.")
+    public ResponseEntity deleteAlarm(@PathVariable String filterString) {
+        return ResponseEntity.ok().body(null);
+    }
 }
