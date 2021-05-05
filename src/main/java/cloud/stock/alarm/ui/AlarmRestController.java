@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.support.ScopeNotActiveException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import cloud.stock.alarm.domain.Alarm;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 
 @Tag(name = "alarm", description = "알람 API")
@@ -52,6 +54,18 @@ public class AlarmRestController {
     })
     public ResponseEntity<Alarm> updateAlarm(@PathVariable final Long id, @RequestBody final Alarm alarm) {
         return ResponseEntity.ok(alarmService.changeAlarm(id, alarm));
+    }
+
+    @GetMapping(value = "/alarm/stockItem")
+    @Operation(summary = "전체알람조회", description = "전체 알람을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "전체알람조회 성공",
+                    content = @Content(schema = @Schema(implementation = List.class))),
+            @ApiResponse(responseCode = "400", description = "전체알람조회 실패",
+                    content = @Content(schema = @Schema(implementation = InvalidParameterException.class)))
+    })
+    public ResponseEntity<List<Alarm>> selectAlarms() {
+        return ResponseEntity.ok().body(alarmService.list());
     }
 
     @GetMapping(value = "/alarm/analyzedItem/{filterString}")

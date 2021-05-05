@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class AlarmService {
@@ -37,5 +38,10 @@ public class AlarmService {
         alarmDao.create(savedAlarm);
 
         return savedAlarm;
+    }
+
+    public List<Alarm> list() {
+        //TODO. 페이징처리 해야함.
+        return alarmDao.findAll();
     }
 }
