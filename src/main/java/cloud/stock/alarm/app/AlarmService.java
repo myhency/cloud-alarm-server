@@ -44,4 +44,9 @@ public class AlarmService {
         //TODO. 페이징처리 해야함.
         return alarmDao.findAll();
     }
+
+    public Alarm getAlarmDetail(final Long id) {
+        return alarmDao.findById(id)
+                .orElseThrow(IllegalArgumentException::new);
+    }
 }
