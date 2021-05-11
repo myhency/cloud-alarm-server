@@ -6,14 +6,19 @@ spring:
   jackson:
     deserialization:
       fail-on-unknown-properties: true
-#jpa:
-        ##    hibernate:
-        ##      ddl-auto: create-drop
-        ##    show-sql: true
-        ##    properties:
-        ##      hibernate:
-      ##        format_sql: true
-      ##    open-in-view: false
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+      format_sql: true
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    url: jdbc:h2:~/data/cloudstock
   h2:
     console:
       enabled: true

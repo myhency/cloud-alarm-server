@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class StockItemService {
@@ -34,5 +35,9 @@ public class StockItemService {
         stockItemDao.create(savedStockItem);
 
         return savedStockItem;
+    }
+
+    public List<StockItem> list() {
+        return stockItemDao.findAll();
     }
 }

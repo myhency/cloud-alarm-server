@@ -51,7 +51,8 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
                 "id, item_name, item_code, recommend_price, " +
                 "losscut_price, comment, theme, alarm_status, " +
                 "created_at, last_updated_at, alarmed_at, losscut_at " +
-                "FROM alarms";
+                "FROM alarms " +
+                "ORDER BY id DESC";
         return jdbcTemplate.query(sql, (resultSet, rowNumber) -> toEntity(resultSet));
     }
 

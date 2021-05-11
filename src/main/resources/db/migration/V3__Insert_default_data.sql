@@ -474,7 +474,7 @@ INSERT INTO stockitems (item_name, item_code) VALUES ('와이엠티','251370');
 INSERT INTO stockitems (item_name, item_code) VALUES ('엠앤씨생명과학','225860');
 INSERT INTO stockitems (item_name, item_code) VALUES ('파워풀엑스','266870');
 INSERT INTO stockitems (item_name, item_code) VALUES ('크라운제과','264900');
-INSERT INTO stockitems (item_name, item_code) VALUES ('AP시스템','265520');
+INSERT INTO stockitems (item_name, item_code, theme) VALUES ('AP시스템','265520', '반도체 장비, 플렉서블 디스플레이, LCD장비, OLED(유기 발광 다이오드)');
 INSERT INTO stockitems (item_name, item_code) VALUES ('유에스티','263770');
 INSERT INTO stockitems (item_name, item_code) VALUES ('이엘피','063760');
 INSERT INTO stockitems (item_name, item_code) VALUES ('유비쿼스','264450');

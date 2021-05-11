@@ -49,7 +49,7 @@ public class JdbcTemplateStockItemDao implements StockItemDao {
     @Override
     public List<StockItem> findAll() {
         final String sql = "SELECT " +
-                "id, item_name, item_code, theme " +
+                "id, item_name, item_code, theme, created_at, last_updated_at " +
                 "FROM stockitems";
         return jdbcTemplate.query(sql, (resultSet, rowNumber) -> toEntity(resultSet));
     }

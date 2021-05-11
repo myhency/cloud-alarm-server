@@ -59,4 +59,10 @@ public class StockItemsController {
     public ResponseEntity selectStockItem(@PathVariable String filterString) {
         return ResponseEntity.ok().body(null);
     }
+
+    @GetMapping(value = "/item/stockItem")
+    @Operation(summary = "종목리스트 조회", description = "모든 종목의 정보를 조회합니다.")
+    public ResponseEntity selectStockItems() {
+        return ResponseEntity.ok().body(stockItemService.list());
+    }
 }
