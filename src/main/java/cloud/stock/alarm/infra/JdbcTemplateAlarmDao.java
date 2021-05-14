@@ -52,7 +52,7 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
                 "losscut_price, comment, theme, alarm_status, " +
                 "created_at, last_updated_at, alarmed_at, losscut_at " +
                 "FROM alarms " +
-                "ORDER BY id DESC";
+                "ORDER BY last_updated_at DESC";
         return jdbcTemplate.query(sql, (resultSet, rowNumber) -> toEntity(resultSet));
     }
 
@@ -81,11 +81,16 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
         final String sql = "UPDATE alarms " +
                 "SET recommend_price = (:recommendPrice), " +
                 "losscut_price = (:losscutPrice), " +
-                "comment = (:comment) " +
+                "comment = (:comment), " +
+                "theme = (:theme)," +
+                "last_updated_at = (:lastUpdatedAt) " +
                 "WHERE id = (:id)";
         final SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("recommendPrice", entity.getRecommendPrice())
                 .addValue("losscutPrice", entity.getLosscutPrice())
+                .addValue("comment", entity.getComment())
+                .addValue("theme", entity.getTheme())
+                .addValue("lastUpdatedAt", LocalDateTime.now().toString())
                 .addValue("id", entity.getId());
         jdbcTemplate.update(sql, sqlParameterSource);
     }

@@ -33,6 +33,7 @@ public class AlarmService {
         savedAlarm.setRecommendPrice(alarm.getRecommendPrice());
         savedAlarm.setLosscutPrice(alarm.getLosscutPrice());
         savedAlarm.setComment(alarm.getComment());
+        savedAlarm.setTheme(alarm.getTheme());
         savedAlarm.setLastUpdatedAt(LocalDateTime.now());
 
         alarmDao.create(savedAlarm);
