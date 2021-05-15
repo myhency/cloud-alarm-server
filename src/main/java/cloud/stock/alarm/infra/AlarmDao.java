@@ -12,4 +12,6 @@ public interface AlarmDao {
     List<Alarm> findAll();
 
     Optional<Alarm> findById(Long id);
+
+    Optional<Alarm> findByFilter(String itemCode, String itemName);
 }

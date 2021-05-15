@@ -2,7 +2,8 @@ package cloud.stock.common;
 
 public enum ErrorCode {
 
-    INVALID_PARAMETER(400, "INVALID-REQUEST-DATA", "Invalid Request Data");
+    INVALID_PARAMETER(400, "INVALID-REQUEST-DATA", "Invalid Request Data"),
+    EMPTY_RESULT(204, "EMPTY-RESULT", "No data returns");
 
     private final String code;
     private final String message;

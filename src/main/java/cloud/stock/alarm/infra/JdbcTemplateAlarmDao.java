@@ -1,7 +1,7 @@
 package cloud.stock.alarm.infra;
 
 import cloud.stock.alarm.domain.Alarm;
-import org.springframework.dao.EmptyResultDataAccessException;
+import cloud.stock.common.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -57,12 +57,49 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
     }
 
     @Override
-    public Optional<Alarm> findById(Long id) {
+    public Optional<Alarm> findById(final Long id) {
         try {
             return Optional.of(select(id));
         } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Optional<Alarm> findByFilter(String itemCode, String itemName) {
+        try {
+            return Optional.of(selectByFilter(itemCode,itemName));
+        } catch (final EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Alarm selectByFilter(String itemCode, String itemName) {
+        String sql;
+        SqlParameterSource parameterSource;
+        if(itemName == null) {
+            sql = "SELECT " +
+                    "id, item_name, item_code, recommend_price, " +
+                    "losscut_price, comment, theme, alarm_status, " +
+                    "created_at, last_updated_at, alarmed_at, losscut_at " +
+                    "FROM alarms " +
+                    "WHERE item_code = (:itemCode)";
+            parameterSource = new MapSqlParameterSource()
+                    .addValue("itemCode", itemCode);
+        } else {
+            sql = "SELECT " +
+                    "id, item_name, item_code, recommend_price, " +
+                    "losscut_price, comment, theme, alarm_status, " +
+                    "created_at, last_updated_at, alarmed_at, losscut_at " +
+                    "FROM alarms " +
+                    "WHERE item_code = (:itemCode) " +
+                    "AND item_name = (:itemName)";
+            parameterSource = new MapSqlParameterSource()
+                    .addValue("itemCode", itemCode)
+                    .addValue("itemName", itemName);
+        }
+
+        return jdbcTemplate.queryForObject(sql, parameterSource, (resultSet, rowNumber) -> toEntity(resultSet));
     }
 
     private Alarm select(final Long id) {

@@ -2,8 +2,11 @@ package cloud.stock.alarm.app;
 
 import cloud.stock.alarm.domain.Alarm;
 import cloud.stock.alarm.infra.AlarmDao;
+import cloud.stock.common.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,5 +52,11 @@ public class AlarmService {
     public Alarm getAlarmDetail(final Long id) {
         return alarmDao.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public Alarm getAlarmDetailByFilter(String itemCode, String itemName) {
+        return alarmDao.findByFilter(itemCode,itemName).orElseThrow(IllegalArgumentException::new);
+//                .orElseThrow(IllegalArgumentException::new);
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "item not found"));
     }
 }
