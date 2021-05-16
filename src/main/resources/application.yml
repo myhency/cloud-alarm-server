@@ -25,3 +25,4 @@ spring:
 logging:
   level:
     jdbc: trace
+    root: DEBUG

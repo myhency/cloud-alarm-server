@@ -2,6 +2,7 @@ package cloud.stock.alarm.infra;
 
 import cloud.stock.alarm.domain.Alarm;
 import cloud.stock.common.EmptyResultDataAccessException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 public class JdbcTemplateAlarmDao implements AlarmDao {
 
@@ -83,7 +85,8 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
                     "losscut_price, comment, theme, alarm_status, " +
                     "created_at, last_updated_at, alarmed_at, losscut_at " +
                     "FROM alarms " +
-                    "WHERE item_code = (:itemCode)";
+                    "WHERE item_code = (:itemCode) " +
+                    "LIMIT 1";
             parameterSource = new MapSqlParameterSource()
                     .addValue("itemCode", itemCode);
         } else {
@@ -93,7 +96,8 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
                     "created_at, last_updated_at, alarmed_at, losscut_at " +
                     "FROM alarms " +
                     "WHERE item_code = (:itemCode) " +
-                    "AND item_name = (:itemName)";
+                    "AND item_name = (:itemName) " +
+                    "LIMIT 1";
             parameterSource = new MapSqlParameterSource()
                     .addValue("itemCode", itemCode)
                     .addValue("itemName", itemName);
