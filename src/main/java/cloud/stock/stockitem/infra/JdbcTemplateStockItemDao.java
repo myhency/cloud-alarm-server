@@ -63,6 +63,22 @@ public class JdbcTemplateStockItemDao implements StockItemDao {
         }
     }
 
+    @Override
+    public StockItem findThemeByItemCode(String itemCode) {
+        final String sql = "SELECT " +
+                "id, " +
+                "item_code, " +
+                "item_name, " +
+                "theme, " +
+                "created_at, last_updated_at " +
+                "FROM stockitems " +
+                "WHERE item_code = (:itemCode)";
+        final SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("itemCode", itemCode);
+
+        return jdbcTemplate.queryForObject(sql, parameterSource, (resultSet, rowNumber) -> toEntity(resultSet));
+    }
+
     private StockItem select(final Long id) {
         final String sql = "SELECT " +
                 "id, item_name, item_code, theme, " +

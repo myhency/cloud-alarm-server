@@ -40,4 +40,8 @@ public class StockItemService {
     public List<StockItem> list() {
         return stockItemDao.findAll();
     }
+
+    public StockItem selectThemeByItemCode(String itemCode) {
+        return stockItemDao.findThemeByItemCode(itemCode);
+    }
 }

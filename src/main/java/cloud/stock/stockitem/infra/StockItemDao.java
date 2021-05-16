@@ -12,4 +12,6 @@ public interface StockItemDao {
     List<StockItem> findAll();
 
     Optional<StockItem> findById(Long id);
+
+    StockItem findThemeByItemCode(String itemCode);
 }

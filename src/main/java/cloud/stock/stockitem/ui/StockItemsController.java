@@ -1,5 +1,6 @@
 package cloud.stock.stockitem.ui;
 
+import cloud.stock.common.ErrorCode;
 import cloud.stock.common.InvalidParameterException;
 import cloud.stock.stockitem.StockItemCreateRequest;
 import cloud.stock.stockitem.app.StockItemService;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -58,6 +60,16 @@ public class StockItemsController {
     @Operation(summary = "종목조회", description = "특정 종목의 정보를 조회합니다.")
     public ResponseEntity selectStockItem(@PathVariable String filterString) {
         return ResponseEntity.ok().body(null);
+    }
+
+    @GetMapping(value = "/item/stockItem/theme/{itemCode}")
+    @Operation(summary = "종목테마조회", description = "특정 종목의 테마를 조회합니다.")
+    public ResponseEntity<StockItem> selectStockItemTheme(@PathVariable String itemCode) {
+        try {
+            return ResponseEntity.ok().body(stockItemService.selectThemeByItemCode(itemCode));
+        } catch(EmptyResultDataAccessException e) {
+            throw new cloud.stock.common.EmptyResultDataAccessException(ErrorCode.EMPTY_RESULT);
+        }
     }
 
     @GetMapping(value = "/item/stockItem")
