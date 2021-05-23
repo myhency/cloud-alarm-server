@@ -19,8 +19,6 @@ public class StockItemService {
 
     @Transactional
     public StockItem create(final StockItem stockItem) {
-        stockItem.setCreatedAt(LocalDateTime.now());
-        stockItem.setLastUpdatedAt(LocalDateTime.now());
 
         return stockItemDao.create(stockItem);
     }

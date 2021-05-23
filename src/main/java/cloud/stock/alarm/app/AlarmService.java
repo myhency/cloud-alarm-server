@@ -1,52 +1,116 @@
 package cloud.stock.alarm.app;
 
 import cloud.stock.alarm.domain.Alarm;
+import cloud.stock.alarm.domain.AlarmRepository;
+import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
+import cloud.stock.alarm.domain.exceptions.InvalidAlarmModificationDataException;
+import cloud.stock.alarm.domain.exceptions.NotExistAlarmException;
 import cloud.stock.alarm.infra.AlarmDao;
-import cloud.stock.common.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
+import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
+import cloud.stock.stockitem.domain.StockItemRepository;
+import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Component
+@AllArgsConstructor
 public class AlarmService {
 
     private final AlarmDao alarmDao;
+    private final AlarmRepository alarmRepository;
+    private final StockItemRepository stockItemRepository;
 
-    public AlarmService(final AlarmDao alarmDao) {
-        this.alarmDao = alarmDao;
+    @Transactional
+    public AlarmDataHolder create(final String itemName,
+                                  final String itemCode,
+                                  final Integer recommendPrice,
+                                  final Integer losscutPrice,
+                                  final String comment,
+                                  final String theme
+    ) {
+            stockItemRepository.findByItemCode(itemCode).orElseThrow(NotExistStockItemException::new);
+            List<Alarm> alarm = alarmRepository.findByItemCode(itemCode);
+            if(!alarm.isEmpty()) {
+                throw new AlreadyExistAlarmException();
+            }
+
+            Alarm newAlarm = Alarm.createAlarmCreationRequest(
+                    itemName,
+                    itemCode,
+                    recommendPrice,
+                    losscutPrice,
+                    comment,
+                    theme
+            );
+
+            newAlarm = alarmRepository.save(newAlarm);
+
+            return AlarmDataHolder.builder()
+                    .alarmId(newAlarm.getAlarmId())
+                    .itemName(newAlarm.getItemName())
+                    .itemCode(newAlarm.getItemCode())
+                    .recommendPrice(newAlarm.getRecommendPrice())
+                    .losscutPrice(newAlarm.getLosscutPrice())
+                    .comment(newAlarm.getComment())
+                    .theme(newAlarm.getTheme())
+                    .alarmStatus(newAlarm.getAlarmStatus().name())
+                    .createdDate(newAlarm.getCreatedDate())
+                    .build();
     }
 
     @Transactional
-    public Alarm create(final Alarm alarm) {
-        alarm.setCreatedAt(LocalDateTime.now());
-        alarm.setLastUpdatedAt(LocalDateTime.now());
+    public AlarmDataHolder changeAlarm(final Long alarmId,
+                                       final String itemName,
+                                       final String itemCode,
+                                       final Integer recommendPrice,
+                                       final Integer losscutPrice,
+                                       final String comment,
+                                       final String theme
+    ) {
+        //돌파가격은 0보다 작을 수 없다.
+        if(recommendPrice < 0) {
+            throw new InvalidAlarmModificationDataException();
+        }
 
-        return alarmDao.create(alarm);
-    }
+        //손절가격은 0보다 작을 수 없다.
+        if(losscutPrice < 0) {
+            throw new InvalidAlarmModificationDataException();
+        }
 
-    @Transactional
-    public Alarm changeAlarm(final Long id, final Alarm alarm) {
-        final Alarm savedAlarm = alarmDao.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+        Alarm toBeModifiedAlarm = alarmRepository.findById(alarmId)
+                .orElseThrow(NotExistAlarmException::new);
 
-        savedAlarm.setRecommendPrice(alarm.getRecommendPrice());
-        savedAlarm.setLosscutPrice(alarm.getLosscutPrice());
-        savedAlarm.setComment(alarm.getComment());
-        savedAlarm.setTheme(alarm.getTheme());
-        savedAlarm.setLastUpdatedAt(LocalDateTime.now());
+        //종목명과 종목코드는 수정할 수 없다.
+        if(toBeModifiedAlarm.getItemName() == itemName || toBeModifiedAlarm.getItemCode() == itemCode) {
+            throw new InvalidAlarmModificationDataException();
+        }
 
-        alarmDao.create(savedAlarm);
+        toBeModifiedAlarm.setRecommendPrice(recommendPrice);
+        toBeModifiedAlarm.setLosscutPrice(losscutPrice);
+        toBeModifiedAlarm.setComment(comment);
+        toBeModifiedAlarm.setTheme(theme);
 
-        return savedAlarm;
+        toBeModifiedAlarm = alarmRepository.save(toBeModifiedAlarm);
+
+        return AlarmDataHolder.builder()
+                .alarmId(toBeModifiedAlarm.getAlarmId())
+                .itemName(toBeModifiedAlarm.getItemName())
+                .itemCode(toBeModifiedAlarm.getItemCode())
+                .recommendPrice(toBeModifiedAlarm.getRecommendPrice())
+                .losscutPrice(toBeModifiedAlarm.getLosscutPrice())
+                .comment(toBeModifiedAlarm.getComment())
+                .theme(toBeModifiedAlarm.getTheme())
+                .createdDate(toBeModifiedAlarm.getModifiedDate())
+                .build();
     }
 
     public List<Alarm> list() {
         //TODO. 페이징처리 해야함.
-        return alarmDao.findAll();
+        return alarmRepository.findAll();
     }
 
     public Alarm getAlarmDetail(final Long id) {

@@ -106,8 +106,6 @@ public class JdbcTemplateStockItemDao implements StockItemDao {
         entity.setItemName(resultSet.getString("item_name"));
         entity.setItemCode(resultSet.getString("item_code"));
         entity.setTheme(resultSet.getString("theme"));
-        entity.setCreatedAt(resultSet.getObject("created_at", LocalDateTime.class));
-        entity.setLastUpdatedAt(resultSet.getObject("last_updated_at", LocalDateTime.class));
 
         return entity;
     }

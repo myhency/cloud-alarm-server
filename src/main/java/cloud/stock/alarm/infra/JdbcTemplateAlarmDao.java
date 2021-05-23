@@ -37,7 +37,7 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
 
     @Override
     public Alarm create(final Alarm entity) {
-        if(Objects.isNull(entity.getId())) {
+        if(Objects.isNull(entity.getAlarmId())) {
             final SqlParameterSource parameters = new BeanPropertySqlParameterSource(entity);
             final Number key = jdbcInsert.executeAndReturnKey(parameters);
             return select(key.longValue());
@@ -132,23 +132,19 @@ public class JdbcTemplateAlarmDao implements AlarmDao {
                 .addValue("comment", entity.getComment())
                 .addValue("theme", entity.getTheme())
                 .addValue("lastUpdatedAt", LocalDateTime.now().toString())
-                .addValue("id", entity.getId());
+                .addValue("id", entity.getAlarmId());
         jdbcTemplate.update(sql, sqlParameterSource);
     }
 
     private Alarm toEntity(final ResultSet resultSet) throws SQLException {
         final Alarm entity = new Alarm();
-        entity.setId(resultSet.getLong(KEY_COLUMN_NAME));
+        entity.setAlarmId(resultSet.getLong(KEY_COLUMN_NAME));
         entity.setItemName(resultSet.getString("item_name"));
         entity.setItemCode(resultSet.getString("item_code"));
         entity.setRecommendPrice(resultSet.getInt("recommend_price"));
         entity.setLosscutPrice(resultSet.getInt("losscut_price"));
         entity.setComment(resultSet.getString("comment"));
         entity.setTheme(resultSet.getString("theme"));
-        entity.setCreatedAt(resultSet.getObject("created_at", LocalDateTime.class));
-        entity.setAlarmStatus(resultSet.getString("alarm_status"));
-        entity.setLastUpdatedAt(resultSet.getObject("last_updated_at", LocalDateTime.class));
-        entity.setAlarmedAt(resultSet.getObject("alarmed_at", LocalDateTime.class));
 
         return entity;
     }

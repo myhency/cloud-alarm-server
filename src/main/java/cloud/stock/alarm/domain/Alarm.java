@@ -1,5 +1,8 @@
 package cloud.stock.alarm.domain;
 
+import cloud.stock.alarm.domain.exceptions.InvalidAlarmCreationDataException;
+import cloud.stock.alarm.domain.strategy.AlarmStatus;
+import cloud.stock.util.BaseTimeEntity;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 import lombok.*;
@@ -10,39 +13,63 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-//@Builder
-//@AllArgsConstructor
-//@NoArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-//@EqualsAndHashCode(of="id")
-//@Entity
-public class Alarm {
+@Entity
+public class Alarm extends BaseTimeEntity {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-//    @NotNull @NotEmpty
+    @Id
+    @GeneratedValue
+    private Long alarmId;
     private String itemName;
-//    @NotNull @NotEmpty
     private String itemCode;
-//    @NotNull
     private Integer recommendPrice;
-//    @NotNull
     private Integer losscutPrice;
-//    @Nullable
     private String comment;
-//    @Nullable
     private String theme;
-//    @Nullable
-    private String alarmStatus;
-//    @NotNull
-    private LocalDateTime createdAt;
-//    @NotNull
-    private LocalDateTime lastUpdatedAt;
-//    @Nullable
-    private LocalDateTime alarmedAt;
-//    @Nullable
-    private LocalDateTime losscutAt;
+    @Enumerated(EnumType.STRING)
+    private AlarmStatus alarmStatus;
 
+    private Alarm(String itemName,
+                  String itemCode,
+                  Integer recommendPrice,
+                  Integer losscutPrice,
+                  String comment,
+                  String theme) {
+        validate(itemName, itemCode, recommendPrice, losscutPrice);
+
+        this.itemName = itemName;
+        this.itemCode = itemCode;
+        this.recommendPrice = recommendPrice;
+        this.losscutPrice = losscutPrice;
+        this.comment = comment;
+        this.theme = theme;
+        this.alarmStatus = AlarmStatus.ALARM_CREATED;
+    }
+
+    private void validate(
+            String itemName,
+            String itemCode,
+            Integer recommendPrice,
+            Integer losscutPrice
+    ) {
+        if(itemName == null ||
+                itemCode == null ||
+                recommendPrice == null ||
+                losscutPrice == null
+        )
+            throw new InvalidAlarmCreationDataException();
+    }
+
+    public static Alarm createAlarmCreationRequest(String itemName,
+                                                   String itemCode,
+                                                   Integer recommendPrice,
+                                                   Integer losscutPrice,
+                                                   String comment,
+                                                   String theme) {
+        return new Alarm(itemName, itemCode, recommendPrice, losscutPrice, comment, theme);
+    }
 }

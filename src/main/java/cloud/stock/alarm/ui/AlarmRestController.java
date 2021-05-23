@@ -1,10 +1,13 @@
 package cloud.stock.alarm.ui;
 
 import cloud.stock.alarm.app.AlarmService;
-import cloud.stock.common.CustomException;
-import cloud.stock.common.EmptyResultDataAccessException;
-import cloud.stock.common.ErrorCode;
-import cloud.stock.common.InvalidParameterException;
+import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
+import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
+import cloud.stock.alarm.ui.dto.AlarmCreationRequestDto;
+import cloud.stock.alarm.ui.dto.AlarmCreationResponseDto;
+import cloud.stock.alarm.ui.dto.AlarmModificationRequestDto;
+import cloud.stock.common.*;
+import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,12 +25,19 @@ import cloud.stock.alarm.domain.Alarm;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Slf4j
-@Tag(name = "alarm", description = "알람 API")
+@Tag(
+        name = "alarm",
+        description = "알람 API"
+)
 @RestController
-@RequestMapping(value = "/api/v1/platform", produces = MediaType.APPLICATION_JSON_VALUE+";charset=UTF-8")
+@RequestMapping(
+        value = "/api/v1/platform",
+        produces = MediaType.APPLICATION_JSON_VALUE+";charset=UTF-8"
+)
 public class AlarmRestController {
     private final AlarmService alarmService;
 
@@ -36,38 +46,121 @@ public class AlarmRestController {
     }
 
     @PostMapping(value = "/alarm/stockItem")
-    @Operation(summary = "알람등록", description = "특정 종목의 알람설정을 합니다.")
+    @Operation(
+            summary = "알람등록",
+            description = "특정 종목의 알람설정을 합니다."
+    )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "알람등록 성공",
-                    content = @Content(schema = @Schema(implementation = Alarm.class))),
-            @ApiResponse(responseCode = "400", description = "알람등록 실패",
-                    content = @Content(schema = @Schema(implementation = InvalidParameterException.class)))
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "알람등록 성공",
+                    content = @Content(
+                            schema = @Schema(
+                                    implementation = AlarmDataHolder.class
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "알람등록 실패(등록된 알람이 존재합니다.)",
+                    content = @Content(
+                            schema = @Schema(
+                                    implementation = AlreadyExistAlarmException.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "알람등록 실패(종목이 존재하지 않습니다.)",
+                    content = @Content(
+                            schema = @Schema(
+                                    implementation = NotExistStockItemException.class)
+                    )
+            )
     })
-    public ResponseEntity<Alarm> createAlarm(@RequestBody @Valid final Alarm alarm) {
-        final Alarm created = alarmService.create(alarm);
-        final URI uri = URI.create("/alarm/stockItem/"+created.getId());
-        return ResponseEntity.created(uri).body(created);
+    public ResponseEntity createAlarm(
+            @RequestBody AlarmCreationRequestDto alarmCreationRequestDto
+    ) throws URISyntaxException {
+        final AlarmDataHolder createdAlarm = alarmService.create(
+                alarmCreationRequestDto.getItemName(),
+                alarmCreationRequestDto.getItemCode(),
+                alarmCreationRequestDto.getRecommendPrice(),
+                alarmCreationRequestDto.getLosscutPrice(),
+                alarmCreationRequestDto.getComment(),
+                alarmCreationRequestDto.getTheme()
+        );
+        return ResponseEntity.created(
+                new URI("/alarm/stockItem/"+createdAlarm.getItemCode()))
+                .body(new ResponseDto<>(new AlarmCreationResponseDto(
+                        createdAlarm.getAlarmId(),
+                        createdAlarm.getItemName(),
+                        createdAlarm.getItemCode(),
+                        createdAlarm.getRecommendPrice(),
+                        createdAlarm.getLosscutPrice(),
+                        createdAlarm.getComment(),
+                        createdAlarm.getAlarmStatus(),
+                        createdAlarm.getCreatedDate()))
+                );
     }
 
-    @PutMapping(value = "/alarm/stockItem/{id}")
-    @Operation(summary = "알람수정", description = "특정 종목의 알람설정을 수정합니다.")
+    @PutMapping(value = "/alarm/stockItem/{alarmId}")
+    @Operation(
+            summary = "알람수정",
+            description = "특정 종목의 알람설정을 수정합니다."
+    )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "알람수정 성공",
-                    content = @Content(schema = @Schema(implementation = Alarm.class))),
-            @ApiResponse(responseCode = "204", description = "알람수정 실패",
-                    content = @Content(schema = @Schema(implementation = EmptyResultDataAccessException.class)))
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "알람수정 성공",
+                    content = @Content(schema = @Schema(
+                            implementation = Alarm.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "알람수정 실패",
+                    content = @Content(schema = @Schema(
+                            implementation = EmptyResultDataAccessException.class)
+                    )
+            )
     })
-    public ResponseEntity<Alarm> updateAlarm(@PathVariable final Long id, @RequestBody final Alarm alarm) {
-        return ResponseEntity.ok(alarmService.changeAlarm(id, alarm));
+    public ResponseEntity updateAlarm(
+            @PathVariable final Long alarmId,
+            @RequestBody final AlarmModificationRequestDto alarmModificationRequestDto
+    ) {
+            final AlarmDataHolder modifiedAlarm = alarmService.changeAlarm(
+                    alarmId,
+                    alarmModificationRequestDto.getItemName(),
+                    alarmModificationRequestDto.getItemCode(),
+                    alarmModificationRequestDto.getRecommendPrice(),
+                    alarmModificationRequestDto.getLosscutPrice(),
+                    alarmModificationRequestDto.getComment(),
+                    alarmModificationRequestDto.getTheme()
+            );
+
+        return ResponseEntity
+                .ok(new ResponseDto<>(modifiedAlarm));
     }
 
     @GetMapping(value = "/alarm/stockItem")
-    @Operation(summary = "전체알람조회", description = "전체 알람을 조회합니다.")
+    @Operation(
+            summary = "전체알람조회",
+            description = "전체 알람을 조회합니다."
+    )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "전체알람조회 성공",
-                    content = @Content(schema = @Schema(implementation = List.class))),
-            @ApiResponse(responseCode = "400", description = "전체알람조회 실패",
-                    content = @Content(schema = @Schema(implementation = InvalidParameterException.class)))
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "전체알람조회 성공",
+                    content = @Content(schema = @Schema(
+                            implementation = List.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "전체알람조회 실패",
+                    content = @Content(schema = @Schema(
+                            implementation = InvalidParameterException.class)
+                    )
+            )
     })
     public ResponseEntity<List<Alarm>> selectAlarms() {
         return ResponseEntity.ok().body(alarmService.list());
