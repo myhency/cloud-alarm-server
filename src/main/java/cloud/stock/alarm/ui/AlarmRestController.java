@@ -166,16 +166,28 @@ public class AlarmRestController {
         return ResponseEntity.ok().body(alarmService.list());
     }
 
-    @GetMapping(value = "/alarm/stockItem/{id}")
-    @Operation(summary = "알람상세조회", description = "특정 알람의 상세내용을 조회합니다.")
+    @GetMapping(value = "/alarm/stockItem/{alarmId}")
+    @Operation(
+            summary = "알람상세조회",
+            description = "특정 알람의 상세내용을 조회합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "알람상세내용 조회 성공",
-                    content = @Content(schema = @Schema(implementation = Alarm.class))),
-            @ApiResponse(responseCode = "400", description = "알람상세내용 조회 실패",
-                    content = @Content(schema = @Schema(implementation = InvalidParameterException.class)))
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "알람상세내용 조회 성공",
+                    content = @Content(schema = @Schema(
+                            implementation = Alarm.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "알람상세내용 조회 실패",
+                    content = @Content(schema = @Schema(
+                            implementation = InvalidParameterException.class)
+                    )
+            )
     })
-    public ResponseEntity<Alarm> selectAlarm(@PathVariable Long id) {
-        return ResponseEntity.ok().body(alarmService.getAlarmDetail(id));
+    public ResponseEntity selectAlarm(@PathVariable Long alarmId) {
+        return ResponseEntity.ok().body(new ResponseDto<>(alarmService.getAlarmDetail(alarmId)));
     }
 
     @GetMapping(value = "/alarm/stockItem/filter")

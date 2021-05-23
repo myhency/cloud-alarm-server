@@ -113,9 +113,22 @@ public class AlarmService {
         return alarmRepository.findAll();
     }
 
-    public Alarm getAlarmDetail(final Long id) {
-        return alarmDao.findById(id)
-                .orElseThrow(IllegalArgumentException::new);
+    public AlarmDataHolder getAlarmDetail(final Long alarmId) {
+        Alarm alarmDetail = alarmRepository.findById(alarmId)
+                .orElseThrow(NotExistAlarmException::new);
+
+        return AlarmDataHolder.builder()
+                .alarmId(alarmDetail.getAlarmId())
+                .itemName(alarmDetail.getItemName())
+                .itemCode(alarmDetail.getItemCode())
+                .recommendPrice(alarmDetail.getRecommendPrice())
+                .losscutPrice(alarmDetail.getLosscutPrice())
+                .alarmStatus(alarmDetail.getAlarmStatus().name())
+                .comment(alarmDetail.getComment())
+                .theme(alarmDetail.getTheme())
+                .createdDate(alarmDetail.getCreatedDate())
+                .modifiedDate(alarmDetail.getModifiedDate())
+                .build();
     }
 
     public Alarm getAlarmDetailByFilter(String itemCode, String itemName) {

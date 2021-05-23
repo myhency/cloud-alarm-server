@@ -28,4 +28,4 @@ logging:
     jdbc: trace
     root: DEBUG
 jwt:
-  secret: "ponqpoweinldnfpoqwinflasdfqoiwnflsndofdiknpqonlkasjdnflkjf"
+  secret: "breadstockcloud"

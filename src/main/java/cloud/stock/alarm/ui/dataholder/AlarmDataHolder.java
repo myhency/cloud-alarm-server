@@ -21,4 +21,5 @@ public class AlarmDataHolder {
     private String theme;
     private String alarmStatus;
     private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 }

@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -22,7 +23,8 @@ import java.util.List;
 @Component
 public class JwtTokenProvider {
 
-    private String secretKey = "breadstockcloud";
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     // 토큰 유효시간 24시간
     private final long tokenValidTime = 1440 * 60 * 1000L;
