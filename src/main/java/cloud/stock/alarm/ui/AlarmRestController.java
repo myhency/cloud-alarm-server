@@ -187,26 +187,36 @@ public class AlarmRestController {
             )
     })
     public ResponseEntity selectAlarm(@PathVariable Long alarmId) {
-        return ResponseEntity.ok().body(new ResponseDto<>(alarmService.getAlarmDetail(alarmId)));
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(alarmService.getAlarmDetail(alarmId)));
     }
 
     @GetMapping(value = "/alarm/stockItem/filter")
-    @Operation(summary = "알람상세조회", description = "종목명 또는 종목코드로 특정 알람의 상세내용을 조회합니다.")
+    @Operation(
+            summary = "알람상세조회",
+            description = "종목명 또는 종목코드로 특정 알람의 상세내용을 조회합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "알람상세내용 조회 성공",
-                    content = @Content(schema = @Schema(implementation = Alarm.class))),
-            @ApiResponse(responseCode = "204", description = "알람상세내용 조회 실패",
-                    content = @Content(schema = @Schema(implementation = EmptyResultDataAccessException.class)))
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "알람상세내용 조회 성공",
+                    content = @Content(schema = @Schema(
+                            implementation = Alarm.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "알람상세내용 조회 실패",
+                    content = @Content(schema = @Schema(
+                            implementation = EmptyResultDataAccessException.class)
+                    )
+            )
     })
-    public ResponseEntity<Alarm> selectAlarmByFilter(
+    public ResponseEntity selectAlarmByFilter(
             @RequestParam(value = "itemCode") String itemCode,
             @RequestParam(value = "itemName", required = false) String itemName
     ) {
-        try {
-            return ResponseEntity.ok().body(alarmService.getAlarmDetailByFilter(itemCode,itemName));
-        } catch (Exception e) {
-            throw new EmptyResultDataAccessException(ErrorCode.EMPTY_RESULT);
-        }
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(alarmService.getAlarmDetailByFilter(itemCode, itemName)));
     }
 
     @GetMapping(value = "/alarm/analyzedItem/{filterString}")

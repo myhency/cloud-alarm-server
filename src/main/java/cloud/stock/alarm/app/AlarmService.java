@@ -10,12 +10,15 @@ import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
 import cloud.stock.stockitem.domain.StockItemRepository;
 import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 public class AlarmService {
@@ -110,7 +113,7 @@ public class AlarmService {
 
     public List<Alarm> list() {
         //TODO. 페이징처리 해야함.
-        return alarmRepository.findAll();
+        return alarmRepository.findAll(Sort.by(Sort.Direction.DESC, "modifiedDate"));
     }
 
     public AlarmDataHolder getAlarmDetail(final Long alarmId) {
@@ -132,8 +135,6 @@ public class AlarmService {
     }
 
     public Alarm getAlarmDetailByFilter(String itemCode, String itemName) {
-        return alarmDao.findByFilter(itemCode,itemName).orElseThrow(IllegalArgumentException::new);
-//                .orElseThrow(IllegalArgumentException::new);
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "item not found"));
+        return alarmRepository.findOneByItemCode(itemCode);
     }
 }
