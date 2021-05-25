@@ -107,7 +107,7 @@ public class AlarmService {
                 .losscutPrice(toBeModifiedAlarm.getLosscutPrice())
                 .comment(toBeModifiedAlarm.getComment())
                 .theme(toBeModifiedAlarm.getTheme())
-                .createdDate(toBeModifiedAlarm.getModifiedDate())
+                .modifiedDate(toBeModifiedAlarm.getModifiedDate())
                 .build();
     }
 

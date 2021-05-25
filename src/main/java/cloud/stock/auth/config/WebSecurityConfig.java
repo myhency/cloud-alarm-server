@@ -50,7 +50,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.exceptionHandling()
+        http
+                .authorizeRequests()
+                .antMatchers("/api/v1/platform/auth/**").permitAll()
+                .antMatchers("/api/v1/platform/alarm/**").hasRole("USER")
+                .antMatchers("/api/v1/platform/stockItem/**").hasRole("USER")
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
                 .httpBasic().disable()
@@ -58,12 +65,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/v1/platform/auth/**").permitAll()
-                .antMatchers("/api/v1/platform/alarm/**").hasRole("USER")
-                .antMatchers("/api/v1/platform/stockItem/**").hasRole("USER")
-                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
