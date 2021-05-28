@@ -2,6 +2,7 @@ package cloud.stock.auth.ui;
 
 import cloud.stock.auth.config.JwtTokenProvider;
 import cloud.stock.auth.domain.User;
+import cloud.stock.auth.domain.exceptions.LoginFailException;
 import cloud.stock.auth.infra.UserRepository;
 import cloud.stock.common.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,9 +44,9 @@ public class AuthRestController {
     @Operation(summary = "로그인", description = "로그인 API 입니다.")
     public ResponseEntity login(@RequestBody Map<String, String> user) {
         User member = userRepository.findByUserName(user.get("userName"))
-                .orElseThrow(() -> new IllegalArgumentException("해당유저는 없습니다."));
+                .orElseThrow(() -> new LoginFailException());
         if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
-            throw new IllegalArgumentException("wrong password");
+            throw new LoginFailException();
         }
 
         return ResponseEntity

@@ -218,16 +218,4 @@ public class AlarmRestController {
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(alarmService.getAlarmDetailByFilter(itemCode, itemName)));
     }
-
-    @GetMapping(value = "/alarm/analyzedItem/{filterString}")
-    @Operation(summary = "알람조회", description = "특정 종목의 알람설정을 조회합니다.")
-    public ResponseEntity selectAlarm(@PathVariable String filterString) {
-        return ResponseEntity.ok().body(null);
-    }
-
-    @DeleteMapping(value = "/alarm/analyzedItem/{filterString}")
-    @Operation(summary = "알람삭제", description = "특정 종목의 알람설정을 삭제합니다.")
-    public ResponseEntity deleteAlarm(@PathVariable String filterString) {
-        return ResponseEntity.ok().body(null);
-    }
 }

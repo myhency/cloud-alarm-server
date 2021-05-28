@@ -22,7 +22,7 @@ import java.util.Date;
 public class Alarm extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long alarmId;
     private String itemName;
     private String itemCode;
