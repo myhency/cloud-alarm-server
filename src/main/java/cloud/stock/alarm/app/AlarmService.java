@@ -5,6 +5,7 @@ import cloud.stock.alarm.domain.AlarmRepository;
 import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
 import cloud.stock.alarm.domain.exceptions.InvalidAlarmModificationDataException;
 import cloud.stock.alarm.domain.exceptions.NotExistAlarmException;
+import cloud.stock.alarm.domain.strategy.AlarmStatus;
 import cloud.stock.alarm.infra.AlarmDao;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
 import cloud.stock.stockitem.domain.StockItemRepository;
@@ -136,5 +137,49 @@ public class AlarmService {
 
     public Alarm getAlarmDetailByFilter(String itemCode, String itemName) {
         return alarmRepository.findOneByItemCode(itemCode);
+    }
+
+    public AlarmDataHolder updateBuyAlarm(Long alarmId) {
+        Alarm toBeDeletedAlarm = alarmRepository.findById(alarmId)
+                .orElseThrow(NotExistAlarmException::new);
+
+        alarmRepository.delete(toBeDeletedAlarm);
+
+        //TODO. 상태를 변경하고 내역테이블에 업데이트 해야함.
+
+        return AlarmDataHolder.builder()
+                .alarmId(toBeDeletedAlarm.getAlarmId())
+                .itemName(toBeDeletedAlarm.getItemName())
+                .itemCode(toBeDeletedAlarm.getItemCode())
+                .recommendPrice(toBeDeletedAlarm.getRecommendPrice())
+                .losscutPrice(toBeDeletedAlarm.getLosscutPrice())
+                .alarmStatus(toBeDeletedAlarm.getAlarmStatus().toString())
+                .comment(toBeDeletedAlarm.getComment())
+                .theme(toBeDeletedAlarm.getTheme())
+                .createdDate(toBeDeletedAlarm.getCreatedDate())
+                .modifiedDate(toBeDeletedAlarm.getModifiedDate())
+                .build();
+    }
+
+    public AlarmDataHolder updateLosscutAlarm(Long alarmId) {
+        Alarm toBeDeletedAlarm = alarmRepository.findById(alarmId)
+                .orElseThrow(NotExistAlarmException::new);
+
+        alarmRepository.delete(toBeDeletedAlarm);
+
+        //TODO. 상태를 변경하고 내역테이블에 업데이트 해야함.
+
+        return AlarmDataHolder.builder()
+                .alarmId(toBeDeletedAlarm.getAlarmId())
+                .itemName(toBeDeletedAlarm.getItemName())
+                .itemCode(toBeDeletedAlarm.getItemCode())
+                .recommendPrice(toBeDeletedAlarm.getRecommendPrice())
+                .losscutPrice(toBeDeletedAlarm.getLosscutPrice())
+                .alarmStatus(toBeDeletedAlarm.getAlarmStatus().toString())
+                .comment(toBeDeletedAlarm.getComment())
+                .theme(toBeDeletedAlarm.getTheme())
+                .createdDate(toBeDeletedAlarm.getCreatedDate())
+                .modifiedDate(toBeDeletedAlarm.getModifiedDate())
+                .build();
     }
 }

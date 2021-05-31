@@ -27,19 +27,19 @@ public class Alarm extends BaseTimeEntity {
     private String itemName;
     private String itemCode;
     private Integer recommendPrice;
-    private Integer losscutPrice;
-    private String comment;
-    private String theme;
-    @Enumerated(EnumType.STRING)
-    private AlarmStatus alarmStatus;
+        private Integer losscutPrice;
+        private String comment;
+        private String theme;
+        @Enumerated(EnumType.STRING)
+        private AlarmStatus alarmStatus;
 
     private Alarm(String itemName,
-                  String itemCode,
-                  Integer recommendPrice,
-                  Integer losscutPrice,
-                  String comment,
-                  String theme) {
-        validate(itemName, itemCode, recommendPrice, losscutPrice);
+                String itemCode,
+                Integer recommendPrice,
+                Integer losscutPrice,
+                String comment,
+                String theme) {
+            validate(itemName, itemCode, recommendPrice, losscutPrice);
 
         this.itemName = itemName;
         this.itemCode = itemCode;

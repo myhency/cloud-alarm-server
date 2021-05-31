@@ -3,9 +3,7 @@ package cloud.stock.alarm.ui;
 import cloud.stock.alarm.app.AlarmService;
 import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
-import cloud.stock.alarm.ui.dto.AlarmCreationRequestDto;
-import cloud.stock.alarm.ui.dto.AlarmCreationResponseDto;
-import cloud.stock.alarm.ui.dto.AlarmModificationRequestDto;
+import cloud.stock.alarm.ui.dto.*;
 import cloud.stock.common.*;
 import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -162,8 +160,9 @@ public class AlarmRestController {
                     )
             )
     })
-    public ResponseEntity<List<Alarm>> selectAlarms() {
-        return ResponseEntity.ok().body(alarmService.list());
+    public ResponseEntity selectAlarms() {
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(alarmService.list()));
     }
 
     @GetMapping(value = "/alarm/stockItem/{alarmId}")
@@ -217,5 +216,21 @@ public class AlarmRestController {
     ) {
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(alarmService.getAlarmDetailByFilter(itemCode, itemName)));
+    }
+
+    @PutMapping(value = "/alarm/stockItem/buy/{alarmId}")
+    public ResponseEntity buyAlarm(@PathVariable Long alarmId) {
+        final AlarmDataHolder modifiedAlarm = alarmService.updateBuyAlarm(alarmId);
+
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(modifiedAlarm));
+    }
+
+    @PutMapping(value = "/alarm/stockItem/losscut/{alarmId}")
+    public ResponseEntity losscutAlarm(@PathVariable Long alarmId) {
+        final AlarmDataHolder modifiedAlarm = alarmService.updateLosscutAlarm(alarmId);
+
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(modifiedAlarm));
     }
 }
