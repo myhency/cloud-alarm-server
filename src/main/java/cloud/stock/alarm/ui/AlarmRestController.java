@@ -219,6 +219,25 @@ public class AlarmRestController {
     }
 
     @PutMapping(value = "/alarm/stockItem/buy/{alarmId}")
+    @Operation(
+            summary = "가격돌파 업데이트",
+            description = "종목의 현재가가 매수가를 돌파하는 경우에 호출합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "가격돌파 업데이트 성공",
+                    content = @Content(schema = @Schema(
+                            implementation = Alarm.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "가격돌파 업데이트 실패",
+                    content = @Content(schema = @Schema(
+                            implementation = EmptyResultDataAccessException.class)
+                    )
+            )
+    })
     public ResponseEntity buyAlarm(@PathVariable Long alarmId) {
         final AlarmDataHolder modifiedAlarm = alarmService.updateBuyAlarm(alarmId);
 
@@ -227,6 +246,25 @@ public class AlarmRestController {
     }
 
     @PutMapping(value = "/alarm/stockItem/losscut/{alarmId}")
+    @Operation(
+            summary = "가격이탈 업데이트",
+            description = "종목의 현재가가 손절가를 이탈하는 경우에 호출합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "가격이탈 업데이트 성공",
+                    content = @Content(schema = @Schema(
+                            implementation = Alarm.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "가격이탈 업데이트 실패",
+                    content = @Content(schema = @Schema(
+                            implementation = EmptyResultDataAccessException.class)
+                    )
+            )
+    })
     public ResponseEntity losscutAlarm(@PathVariable Long alarmId) {
         final AlarmDataHolder modifiedAlarm = alarmService.updateLosscutAlarm(alarmId);
 

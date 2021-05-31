@@ -1,12 +1,11 @@
 package cloud.stock.alarm.app;
 
 import cloud.stock.alarm.domain.Alarm;
-import cloud.stock.alarm.domain.AlarmRepository;
+import cloud.stock.alarm.infra.AlarmRepository;
 import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
 import cloud.stock.alarm.domain.exceptions.InvalidAlarmModificationDataException;
 import cloud.stock.alarm.domain.exceptions.NotExistAlarmException;
 import cloud.stock.alarm.domain.strategy.AlarmStatus;
-import cloud.stock.alarm.infra.AlarmDao;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
 import cloud.stock.stockitem.domain.StockItemRepository;
 import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
@@ -16,15 +15,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Component
 @AllArgsConstructor
 public class AlarmService {
 
-    private final AlarmDao alarmDao;
     private final AlarmRepository alarmRepository;
     private final StockItemRepository stockItemRepository;
 
@@ -143,9 +141,10 @@ public class AlarmService {
         Alarm toBeDeletedAlarm = alarmRepository.findById(alarmId)
                 .orElseThrow(NotExistAlarmException::new);
 
-        alarmRepository.delete(toBeDeletedAlarm);
-
         //TODO. 상태를 변경하고 내역테이블에 업데이트 해야함.
+        toBeDeletedAlarm.setAlarmStatus(AlarmStatus.ALARMED);
+
+        alarmRepository.delete(toBeDeletedAlarm);
 
         return AlarmDataHolder.builder()
                 .alarmId(toBeDeletedAlarm.getAlarmId())
@@ -157,7 +156,7 @@ public class AlarmService {
                 .comment(toBeDeletedAlarm.getComment())
                 .theme(toBeDeletedAlarm.getTheme())
                 .createdDate(toBeDeletedAlarm.getCreatedDate())
-                .modifiedDate(toBeDeletedAlarm.getModifiedDate())
+                .modifiedDate(LocalDateTime.now())
                 .build();
     }
 
@@ -165,9 +164,10 @@ public class AlarmService {
         Alarm toBeDeletedAlarm = alarmRepository.findById(alarmId)
                 .orElseThrow(NotExistAlarmException::new);
 
-        alarmRepository.delete(toBeDeletedAlarm);
-
         //TODO. 상태를 변경하고 내역테이블에 업데이트 해야함.
+        toBeDeletedAlarm.setAlarmStatus(AlarmStatus.LOSSCUT);
+
+        alarmRepository.delete(toBeDeletedAlarm);
 
         return AlarmDataHolder.builder()
                 .alarmId(toBeDeletedAlarm.getAlarmId())
@@ -179,7 +179,7 @@ public class AlarmService {
                 .comment(toBeDeletedAlarm.getComment())
                 .theme(toBeDeletedAlarm.getTheme())
                 .createdDate(toBeDeletedAlarm.getCreatedDate())
-                .modifiedDate(toBeDeletedAlarm.getModifiedDate())
+                .modifiedDate(LocalDateTime.now())
                 .build();
     }
 }

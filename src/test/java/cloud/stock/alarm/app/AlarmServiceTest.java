@@ -1,14 +1,12 @@
 package cloud.stock.alarm.app;
 
 import cloud.stock.alarm.domain.Alarm;
-import cloud.stock.alarm.domain.AlarmRepository;
+import cloud.stock.alarm.infra.AlarmRepository;
 import cloud.stock.alarm.domain.strategy.AlarmStatus;
-import cloud.stock.alarm.infra.AlarmDao;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
 import cloud.stock.alarm.ui.dto.AlarmCreationRequestDto;
 import cloud.stock.stockitem.domain.StockItem;
 import cloud.stock.stockitem.domain.StockItemRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,16 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AlarmServiceTest {

@@ -1,5 +1,6 @@
-package cloud.stock.alarm.domain;
+package cloud.stock.alarm.infra;
 
+import cloud.stock.alarm.domain.Alarm;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
