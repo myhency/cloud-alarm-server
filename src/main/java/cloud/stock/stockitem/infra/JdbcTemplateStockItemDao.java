@@ -1,6 +1,5 @@
 package cloud.stock.stockitem.infra;
 
-import cloud.stock.alarm.domain.Alarm;
 import cloud.stock.stockitem.domain.StockItem;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;

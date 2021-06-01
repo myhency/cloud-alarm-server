@@ -1,6 +1,6 @@
 package cloud.stock.alarm.app;
 
-import cloud.stock.alarm.domain.Alarm;
+import cloud.stock.alarm.domain.alarm.Alarm;
 import cloud.stock.alarm.infra.AlarmRepository;
 import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
 import cloud.stock.alarm.domain.exceptions.InvalidAlarmModificationDataException;

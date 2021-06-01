@@ -1,17 +1,11 @@
-package cloud.stock.alarm.domain;
+package cloud.stock.alarm.domain.alarm;
 
 import cloud.stock.alarm.domain.exceptions.InvalidAlarmCreationDataException;
 import cloud.stock.alarm.domain.strategy.AlarmStatus;
 import cloud.stock.util.BaseTimeEntity;
-import com.sun.istack.NotNull;
-import com.sun.istack.Nullable;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Builder
 @AllArgsConstructor
