@@ -141,8 +141,7 @@ public class AlarmService {
         Alarm toBeDeletedAlarm = alarmRepository.findById(alarmId)
                 .orElseThrow(NotExistAlarmException::new);
 
-        //TODO. 상태를 변경하고 내역테이블에 업데이트 해야함.
-        toBeDeletedAlarm.setAlarmStatus(AlarmStatus.ALARMED);
+//        toBeDeletedAlarm.setAlarmStatus(AlarmStatus.ALARMED);
 
         alarmRepository.delete(toBeDeletedAlarm);
 
@@ -164,7 +163,6 @@ public class AlarmService {
         Alarm toBeDeletedAlarm = alarmRepository.findById(alarmId)
                 .orElseThrow(NotExistAlarmException::new);
 
-        //TODO. 상태를 변경하고 내역테이블에 업데이트 해야함.
         toBeDeletedAlarm.setAlarmStatus(AlarmStatus.LOSSCUT);
 
         alarmRepository.delete(toBeDeletedAlarm);

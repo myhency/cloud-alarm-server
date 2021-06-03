@@ -1,5 +1,6 @@
 package cloud.stock.alarm.ui;
 
+import cloud.stock.alarm.app.AlarmHistoryService;
 import cloud.stock.alarm.app.AlarmService;
 import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
@@ -34,9 +35,14 @@ import java.util.List;
 )
 public class AlarmRestController {
     private final AlarmService alarmService;
+    private final AlarmHistoryService alarmHistoryService;
 
-    public AlarmRestController(final AlarmService alarmService) {
+    public AlarmRestController(
+            final AlarmService alarmService,
+            final AlarmHistoryService alarmHistoryService
+    ) {
         this.alarmService = alarmService;
+        this.alarmHistoryService = alarmHistoryService;
     }
 
     @PostMapping(value = "/alarm/stockItem")
@@ -82,6 +88,9 @@ public class AlarmRestController {
                 alarmCreationRequestDto.getComment(),
                 alarmCreationRequestDto.getTheme()
         );
+
+        alarmHistoryService.saveAlarmHistory(createdAlarm);
+
         return ResponseEntity.created(
                 new URI("/alarm/stockItem/"+createdAlarm.getItemCode()))
                 .body(new ResponseDto<>(new AlarmCreationResponseDto(
@@ -130,6 +139,8 @@ public class AlarmRestController {
                     alarmModificationRequestDto.getComment(),
                     alarmModificationRequestDto.getTheme()
             );
+
+        alarmHistoryService.saveAlarmHistory(modifiedAlarm);
 
         return ResponseEntity
                 .ok(new ResponseDto<>(modifiedAlarm));
@@ -237,6 +248,8 @@ public class AlarmRestController {
     public ResponseEntity buyAlarm(@PathVariable Long alarmId) {
         final AlarmDataHolder modifiedAlarm = alarmService.updateBuyAlarm(alarmId);
 
+        alarmHistoryService.saveAlarmHistory(modifiedAlarm);
+
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(modifiedAlarm));
     }
@@ -263,6 +276,8 @@ public class AlarmRestController {
     })
     public ResponseEntity losscutAlarm(@PathVariable Long alarmId) {
         final AlarmDataHolder modifiedAlarm = alarmService.updateLosscutAlarm(alarmId);
+
+        alarmHistoryService.saveAlarmHistory(modifiedAlarm);
 
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(modifiedAlarm));

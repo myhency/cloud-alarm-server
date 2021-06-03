@@ -1,9 +1,9 @@
-PUT http://localhost:8080/api/v1/platform/alarm/stockItem/buy/20
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbG91ZCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2MjI0NjQ1MzcsImV4cCI6MTYyMjU1MDkzN30.XlNEaUxlC3FP3kBVy4GUbbtqV_zABiH0Ktg0jFfeqUo
+PUT http://localhost:8080/api/v1/platform/alarm/stockItem/buy/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbG91ZCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2MjI3MjQyNzIsImV4cCI6MTYyMjgxMDY3Mn0.M7n5M2SwepebZAkukv7JGtsmf5LUMqJThXVcnjP0_iA
 
 ###
 
-PUT http://localhost:8080/api/v1/platform/alarm/stockItem/losscut/5
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbG91ZCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2MjI0NjQ1MzcsImV4cCI6MTYyMjU1MDkzN30.XlNEaUxlC3FP3kBVy4GUbbtqV_zABiH0Ktg0jFfeqUo
+PUT http://localhost:8080/api/v1/platform/alarm/stockItem/losscut/13
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbG91ZCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2MjI1NTI1OTksImV4cCI6MTYyMjYzODk5OX0.cC3vN54df_Pik3A0i1hFdHsGbLX9cbdKBdiNO4QKKhA
 
 ###
