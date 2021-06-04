@@ -2,15 +2,17 @@ package cloud.stock.alarm.domain.alarmHistory;
 
 import cloud.stock.alarm.domain.strategy.AlarmStatus;
 import cloud.stock.util.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Getter
+@Setter
 public class AlarmHistory {
 
     @Id

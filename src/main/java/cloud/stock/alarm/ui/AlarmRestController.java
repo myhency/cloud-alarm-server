@@ -2,6 +2,7 @@ package cloud.stock.alarm.ui;
 
 import cloud.stock.alarm.app.AlarmHistoryService;
 import cloud.stock.alarm.app.AlarmService;
+import cloud.stock.alarm.domain.alarmHistory.AlarmHistory;
 import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
 import cloud.stock.alarm.ui.dto.*;
@@ -281,5 +282,33 @@ public class AlarmRestController {
 
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(modifiedAlarm));
+    }
+
+    @GetMapping(value = "/alarm/history")
+    @Operation(
+            summary = "알람상태로 조회",
+            description = "알람상태별로 알람 리스트를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "알람리스트 조회 성공",
+                    content = @Content(schema = @Schema(
+                            implementation = List.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "알람리스트 조회 실패",
+                    content = @Content(schema = @Schema(
+                            implementation = EmptyResultDataAccessException.class)
+                    )
+            )
+    })
+    public ResponseEntity selectAlarmByStatus(
+            @RequestParam(value = "status") String alarmStatus
+    ) {
+        List<AlarmHistory> alarmHistories = alarmHistoryService.getAlarmsByStatus(alarmStatus);
+        return ResponseEntity.ok()
+                .body(alarmHistories);
     }
 }
