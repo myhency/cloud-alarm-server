@@ -309,6 +309,6 @@ public class AlarmRestController {
     ) {
         List<AlarmHistory> alarmHistories = alarmHistoryService.getAlarmsByStatus(alarmStatus);
         return ResponseEntity.ok()
-                .body(alarmHistories);
+                .body(new ResponseDto<>(alarmHistories));
     }
 }
