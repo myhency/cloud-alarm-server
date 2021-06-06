@@ -21,6 +21,7 @@ INSERT INTO alarm (item_name, item_code, recommend_price, losscut_price, comment
 INSERT INTO alarm (item_name, item_code, recommend_price, losscut_price, comment, theme, created_date, modified_date, alarm_status) VALUES ('본느','226340',3000,2900,'본느 3000원 위로 거래합시다. 훅갑니다. / 손절 2900','화장품',STR_TO_DATE ('2021.2.14','%Y.%m.%d'),STR_TO_DATE ('2021.2.14','%Y.%m.%d'), 'ALARM_CREATED');
 INSERT INTO alarm (item_name, item_code, recommend_price, losscut_price, comment, theme, created_date, modified_date, alarm_status) VALUES ('카카오게임즈','293490',57100,54200,'2020 하반기 신규상장, 게임, 모바일게임(스마트폰), 크래프톤 관련주','크래프톤 관련주',STR_TO_DATE ('2021.06.01','%Y.%m.%d'),STR_TO_DATE ('2021.06.01','%Y.%m.%d'), 'ALARM_CREATED');
 
+INSERT INTO stock_item (item_code, item_name, theme) values ('010400','우진아이엔에스','하이테크 사업(매출56%) 산업시설용 특수덕트인 기계설비를 생산 및 시공 / 일반 설비 사업(매출44%) 건축물 공조설비 및 소방설비 17년 기준 국내 하이테크 설비분야에서 시장점유율 76%');
 INSERT INTO stock_item (item_name, theme, item_code) values ('삼성전자','3D 낸드(NAND), 4차산업 수혜주, 5G(5세대 이동통신), 가상현실(VR), 갤럭시 부품주, 고령화 사회(노인복지), 공기청정기, 마이크로 LED, 무선충전기술, 반도체 대표주(생산), 삼성페이, 스마트폰, 스마트홈(홈네트워크), 시스템반도체, 아이폰, 의료기기, 자율주행차, 제습기, 폴더블폰, 플렉서블 디스플레이, IT 대표주, LED, OLED(유기 발광 다이오드), RFID(NFC 등)','005930');
 INSERT INTO stock_item (item_name, theme, item_code) values ('SK하이닉스','3D 낸드(NAND), 반도체 대표주(생산), 시스템반도체, 아이폰, 자율주행차, IT 대표주','000660');
 INSERT INTO stock_item (item_name, theme, item_code) values ('LG화학','2차전지, 2차전지(생산), 고령화 사회(노인복지), 바이오시밀러(복제 바이오의약품), 석유화학, 아이폰, 전기차, 전력저장장치(ESS), 탄소나노튜브(CNT), K-뉴딜지수, K-뉴딜지수(2차전지), OLED(유기 발광 다이오드)','051910');

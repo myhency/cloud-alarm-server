@@ -2,6 +2,7 @@ package cloud.stock.alarm.app;
 
 import cloud.stock.alarm.domain.alarm.Alarm;
 import cloud.stock.alarm.domain.alarmHistory.AlarmHistory;
+import cloud.stock.alarm.domain.exceptions.NotExistAlarmException;
 import cloud.stock.alarm.domain.strategy.AlarmStatus;
 import cloud.stock.alarm.infra.AlarmHistoryRepository;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
@@ -43,5 +44,24 @@ public class AlarmHistoryService {
                 .findAllByAlarmStatusOrderByModifiedDateDesc(
                         AlarmStatus.valueOf(alarmStatus)
                 );
+    }
+
+    public AlarmDataHolder getAlarmDetail(Long alarmId) {
+        AlarmHistory alarmHistoryDetail = alarmHistoryRepository
+                .findByAlarmIdAndAlarmStatus(alarmId, AlarmStatus.LOSSCUT)
+                .orElseThrow(NotExistAlarmException::new);
+
+        return AlarmDataHolder.builder()
+                .alarmId(alarmHistoryDetail.getAlarmId())
+                .itemName(alarmHistoryDetail.getItemName())
+                .itemCode(alarmHistoryDetail.getItemCode())
+                .recommendPrice(alarmHistoryDetail.getRecommendPrice())
+                .losscutPrice(alarmHistoryDetail.getLosscutPrice())
+                .alarmStatus(alarmHistoryDetail.getAlarmStatus().name())
+                .comment(alarmHistoryDetail.getComment())
+                .theme(alarmHistoryDetail.getTheme())
+                .createdDate(alarmHistoryDetail.getCreatedDate())
+                .modifiedDate(alarmHistoryDetail.getModifiedDate())
+                .build();
     }
 }

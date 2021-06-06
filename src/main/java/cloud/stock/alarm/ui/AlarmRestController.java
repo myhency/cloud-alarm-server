@@ -311,4 +311,29 @@ public class AlarmRestController {
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(alarmHistories));
     }
+
+    @GetMapping(value = "/alarm/history/{alarmId}")
+    @Operation(
+            summary = "손절알람 상세조회",
+            description = "특정 손절알람의 상세내용을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "손절알람 상세내용 조회 성공",
+                    content = @Content(schema = @Schema(
+                            implementation = Alarm.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "손절알람 상세내용 조회 실패",
+                    content = @Content(schema = @Schema(
+                            implementation = InvalidParameterException.class)
+                    )
+            )
+    })
+    public ResponseEntity selectAlarmHistory(@PathVariable Long alarmId) {
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(alarmHistoryService.getAlarmDetail(alarmId)));
+    }
 }
