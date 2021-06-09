@@ -7,7 +7,7 @@ import cloud.stock.alarm.domain.exceptions.InvalidAlarmModificationDataException
 import cloud.stock.alarm.domain.exceptions.NotExistAlarmException;
 import cloud.stock.alarm.domain.strategy.AlarmStatus;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
-import cloud.stock.stockitem.domain.StockItemRepository;
+import cloud.stock.stockitem.infra.StockItemRepository;
 import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

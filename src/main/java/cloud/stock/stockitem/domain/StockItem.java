@@ -3,10 +3,7 @@ package cloud.stock.stockitem.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Builder
@@ -14,12 +11,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(
+        name = "item_code_unique",
+        columnNames = {"item_code"}
+)})
 public class StockItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String itemName;
+    @Column(name = "item_code", nullable = false)
     private String itemCode;
     private String theme;
 }

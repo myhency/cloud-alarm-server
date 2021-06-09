@@ -2,6 +2,7 @@ package cloud.stock.stockitem.ui;
 
 import cloud.stock.common.ErrorCode;
 import cloud.stock.common.InvalidParameterException;
+import cloud.stock.common.ResponseDto;
 import cloud.stock.stockitem.StockItemCreateRequest;
 import cloud.stock.stockitem.app.StockItemService;
 import cloud.stock.stockitem.domain.StockItem;
@@ -75,6 +76,7 @@ public class StockItemsController {
     @GetMapping(value = "/item/stockItem")
     @Operation(summary = "종목리스트 조회", description = "모든 종목의 정보를 조회합니다.")
     public ResponseEntity selectStockItems() {
-        return ResponseEntity.ok().body(stockItemService.list());
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(stockItemService.list()));
     }
 }

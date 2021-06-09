@@ -2,19 +2,21 @@ package cloud.stock.stockitem.app;
 
 import cloud.stock.stockitem.domain.StockItem;
 import cloud.stock.stockitem.infra.StockItemDao;
+import cloud.stock.stockitem.infra.StockItemRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
 public class StockItemService {
 
     private final StockItemDao stockItemDao;
+    private final StockItemRepository stockItemRepository;
 
-    public StockItemService(final StockItemDao stockItemDao) {
+    public StockItemService(final StockItemDao stockItemDao, StockItemRepository stockItemRepository) {
         this.stockItemDao = stockItemDao;
+        this.stockItemRepository = stockItemRepository;
     }
 
     @Transactional
@@ -36,7 +38,7 @@ public class StockItemService {
     }
 
     public List<StockItem> list() {
-        return stockItemDao.findAll();
+        return stockItemRepository.findAll();
     }
 
     public StockItem selectThemeByItemCode(String itemCode) {

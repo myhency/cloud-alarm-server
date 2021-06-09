@@ -6,7 +6,7 @@ import cloud.stock.alarm.domain.strategy.AlarmStatus;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
 import cloud.stock.alarm.ui.dto.AlarmCreationRequestDto;
 import cloud.stock.stockitem.domain.StockItem;
-import cloud.stock.stockitem.domain.StockItemRepository;
+import cloud.stock.stockitem.infra.StockItemRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
