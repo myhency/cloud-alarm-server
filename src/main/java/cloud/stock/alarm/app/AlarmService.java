@@ -141,9 +141,9 @@ public class AlarmService {
         Alarm toBeDeletedAlarm = alarmRepository.findById(alarmId)
                 .orElseThrow(NotExistAlarmException::new);
 
-//        toBeDeletedAlarm.setAlarmStatus(AlarmStatus.ALARMED);
+        toBeDeletedAlarm.setAlarmStatus(AlarmStatus.ALARMED);
 
-        alarmRepository.delete(toBeDeletedAlarm);
+//        alarmRepository.delete(toBeDeletedAlarm);
 
         return AlarmDataHolder.builder()
                 .alarmId(toBeDeletedAlarm.getAlarmId())
