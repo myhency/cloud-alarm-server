@@ -138,23 +138,25 @@ public class AlarmService {
     }
 
     public AlarmDataHolder updateBuyAlarm(Long alarmId) {
-        Alarm toBeDeletedAlarm = alarmRepository.findById(alarmId)
+        Alarm toBeUpdatedAlarm = alarmRepository.findById(alarmId)
                 .orElseThrow(NotExistAlarmException::new);
 
-        toBeDeletedAlarm.setAlarmStatus(AlarmStatus.ALARMED);
+        toBeUpdatedAlarm.setAlarmStatus(AlarmStatus.ALARMED);
+
+        alarmRepository.save(toBeUpdatedAlarm);
 
 //        alarmRepository.delete(toBeDeletedAlarm);
 
         return AlarmDataHolder.builder()
-                .alarmId(toBeDeletedAlarm.getAlarmId())
-                .itemName(toBeDeletedAlarm.getItemName())
-                .itemCode(toBeDeletedAlarm.getItemCode())
-                .recommendPrice(toBeDeletedAlarm.getRecommendPrice())
-                .losscutPrice(toBeDeletedAlarm.getLosscutPrice())
-                .alarmStatus(toBeDeletedAlarm.getAlarmStatus().toString())
-                .comment(toBeDeletedAlarm.getComment())
-                .theme(toBeDeletedAlarm.getTheme())
-                .createdDate(toBeDeletedAlarm.getCreatedDate())
+                .alarmId(toBeUpdatedAlarm.getAlarmId())
+                .itemName(toBeUpdatedAlarm.getItemName())
+                .itemCode(toBeUpdatedAlarm.getItemCode())
+                .recommendPrice(toBeUpdatedAlarm.getRecommendPrice())
+                .losscutPrice(toBeUpdatedAlarm.getLosscutPrice())
+                .alarmStatus(toBeUpdatedAlarm.getAlarmStatus().toString())
+                .comment(toBeUpdatedAlarm.getComment())
+                .theme(toBeUpdatedAlarm.getTheme())
+                .createdDate(toBeUpdatedAlarm.getCreatedDate())
                 .modifiedDate(LocalDateTime.now())
                 .build();
     }
@@ -180,6 +182,4 @@ public class AlarmService {
                 .modifiedDate(LocalDateTime.now())
                 .build();
     }
-
-
 }
