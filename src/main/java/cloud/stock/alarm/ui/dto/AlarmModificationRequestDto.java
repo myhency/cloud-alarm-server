@@ -1,5 +1,6 @@
 package cloud.stock.alarm.ui.dto;
 
+import cloud.stock.alarm.domain.strategy.AlarmStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,4 +23,5 @@ public class AlarmModificationRequestDto {
     private Integer losscutPrice;
     private String comment;
     private String theme;
+    private AlarmStatus alarmStatus;
 }

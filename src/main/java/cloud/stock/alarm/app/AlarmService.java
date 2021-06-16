@@ -71,7 +71,8 @@ public class AlarmService {
                                        final Integer recommendPrice,
                                        final Integer losscutPrice,
                                        final String comment,
-                                       final String theme
+                                       final String theme,
+                                       final AlarmStatus alarmStatus
     ) {
         //돌파가격은 0보다 작을 수 없다.
         if(recommendPrice < 0) {
@@ -95,6 +96,7 @@ public class AlarmService {
         toBeModifiedAlarm.setLosscutPrice(losscutPrice);
         toBeModifiedAlarm.setComment(comment);
         toBeModifiedAlarm.setTheme(theme);
+        toBeModifiedAlarm.setAlarmStatus(alarmStatus);
 
         toBeModifiedAlarm = alarmRepository.save(toBeModifiedAlarm);
 
@@ -106,6 +108,7 @@ public class AlarmService {
                 .losscutPrice(toBeModifiedAlarm.getLosscutPrice())
                 .comment(toBeModifiedAlarm.getComment())
                 .theme(toBeModifiedAlarm.getTheme())
+                .alarmStatus(toBeModifiedAlarm.getAlarmStatus().name())
                 .modifiedDate(toBeModifiedAlarm.getModifiedDate())
                 .build();
     }

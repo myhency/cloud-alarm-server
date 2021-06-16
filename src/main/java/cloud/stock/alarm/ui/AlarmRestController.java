@@ -4,6 +4,7 @@ import cloud.stock.alarm.app.AlarmHistoryService;
 import cloud.stock.alarm.app.AlarmService;
 import cloud.stock.alarm.domain.alarmHistory.AlarmHistory;
 import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
+import cloud.stock.alarm.domain.strategy.AlarmStatus;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
 import cloud.stock.alarm.ui.dto.*;
 import cloud.stock.common.*;
@@ -138,7 +139,8 @@ public class AlarmRestController {
                     alarmModificationRequestDto.getRecommendPrice(),
                     alarmModificationRequestDto.getLosscutPrice(),
                     alarmModificationRequestDto.getComment(),
-                    alarmModificationRequestDto.getTheme()
+                    alarmModificationRequestDto.getTheme(),
+                    alarmModificationRequestDto.getAlarmStatus()
             );
 
         alarmHistoryService.saveAlarmHistory(modifiedAlarm);
