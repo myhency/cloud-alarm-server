@@ -18,7 +18,11 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -70,11 +74,7 @@ public class AlarmService {
                 .modifiedDate(newAlarm.getModifiedDate())
                 .build();
 
-        try {
-            kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(alarmDataHolder));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        produceKafkaMessage(alarmDataHolder);
 
         return alarmDataHolder;
     }
@@ -127,11 +127,7 @@ public class AlarmService {
                 .modifiedDate(toBeModifiedAlarm.getModifiedDate())
                 .build();
 
-        try {
-            kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(alarmDataHolder));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        produceKafkaMessage(alarmDataHolder);
 
         return alarmDataHolder;
     }
@@ -171,8 +167,6 @@ public class AlarmService {
 
         alarmRepository.save(toBeUpdatedAlarm);
 
-//        alarmRepository.delete(toBeDeletedAlarm);
-
         return AlarmDataHolder.builder()
                 .alarmId(toBeUpdatedAlarm.getAlarmId())
                 .itemName(toBeUpdatedAlarm.getItemName())
@@ -207,5 +201,19 @@ public class AlarmService {
                 .createdDate(toBeDeletedAlarm.getCreatedDate())
                 .modifiedDate(LocalDateTime.now())
                 .build();
+    }
+
+    private void produceKafkaMessage(AlarmDataHolder alarmDataHolder) {
+        try {
+            SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
+            Date marketStart = parser.parse("09:00");
+            Date marketEnd = parser.parse("15:30");
+            Date now = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
+            if(now.after(marketStart) && now.before(marketEnd)) {
+                kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(alarmDataHolder));
+            }
+        } catch (JsonProcessingException | ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
