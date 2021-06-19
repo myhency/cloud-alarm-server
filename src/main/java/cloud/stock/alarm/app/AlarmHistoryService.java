@@ -8,6 +8,8 @@ import cloud.stock.alarm.infra.AlarmHistoryRepository;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;

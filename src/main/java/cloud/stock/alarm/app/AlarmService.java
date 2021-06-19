@@ -9,9 +9,12 @@ import cloud.stock.alarm.domain.strategy.AlarmStatus;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
 import cloud.stock.stockitem.infra.StockItemRepository;
 import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,9 @@ public class AlarmService {
 
     private final AlarmRepository alarmRepository;
     private final StockItemRepository stockItemRepository;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private static final String TOPIC = "test_topic";
+    private final ObjectMapper objectMapper;
 
     @Transactional
     public AlarmDataHolder create(final String itemName,
@@ -34,34 +40,43 @@ public class AlarmService {
                                   final String comment,
                                   final String theme
     ) {
-            stockItemRepository.findByItemCode(itemCode).orElseThrow(NotExistStockItemException::new);
-            List<Alarm> alarm = alarmRepository.findByItemCode(itemCode);
-            if(!alarm.isEmpty()) {
-                throw new AlreadyExistAlarmException();
-            }
+        stockItemRepository.findByItemCode(itemCode).orElseThrow(NotExistStockItemException::new);
+        List<Alarm> alarm = alarmRepository.findByItemCode(itemCode);
+        if(!alarm.isEmpty()) {
+            throw new AlreadyExistAlarmException();
+        }
 
-            Alarm newAlarm = Alarm.createAlarmCreationRequest(
-                    itemName,
-                    itemCode,
-                    recommendPrice,
-                    losscutPrice,
-                    comment,
-                    theme
-            );
+        Alarm newAlarm = Alarm.createAlarmCreationRequest(
+                itemName,
+                itemCode,
+                recommendPrice,
+                losscutPrice,
+                comment,
+                theme
+        );
 
-            newAlarm = alarmRepository.save(newAlarm);
+        newAlarm = alarmRepository.save(newAlarm);
 
-            return AlarmDataHolder.builder()
-                    .alarmId(newAlarm.getAlarmId())
-                    .itemName(newAlarm.getItemName())
-                    .itemCode(newAlarm.getItemCode())
-                    .recommendPrice(newAlarm.getRecommendPrice())
-                    .losscutPrice(newAlarm.getLosscutPrice())
-                    .comment(newAlarm.getComment())
-                    .theme(newAlarm.getTheme())
-                    .alarmStatus(newAlarm.getAlarmStatus().name())
-                    .createdDate(newAlarm.getCreatedDate())
-                    .build();
+        AlarmDataHolder alarmDataHolder = AlarmDataHolder.builder()
+                .alarmId(newAlarm.getAlarmId())
+                .itemName(newAlarm.getItemName())
+                .itemCode(newAlarm.getItemCode())
+                .recommendPrice(newAlarm.getRecommendPrice())
+                .losscutPrice(newAlarm.getLosscutPrice())
+                .comment(newAlarm.getComment())
+                .theme(newAlarm.getTheme())
+                .alarmStatus(newAlarm.getAlarmStatus().name())
+                .createdDate(newAlarm.getCreatedDate())
+                .modifiedDate(newAlarm.getModifiedDate())
+                .build();
+
+        try {
+            kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(alarmDataHolder));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return alarmDataHolder;
     }
 
     @Transactional
@@ -100,7 +115,7 @@ public class AlarmService {
 
         toBeModifiedAlarm = alarmRepository.save(toBeModifiedAlarm);
 
-        return AlarmDataHolder.builder()
+        AlarmDataHolder alarmDataHolder = AlarmDataHolder.builder()
                 .alarmId(toBeModifiedAlarm.getAlarmId())
                 .itemName(toBeModifiedAlarm.getItemName())
                 .itemCode(toBeModifiedAlarm.getItemCode())
@@ -111,6 +126,14 @@ public class AlarmService {
                 .alarmStatus(toBeModifiedAlarm.getAlarmStatus().name())
                 .modifiedDate(toBeModifiedAlarm.getModifiedDate())
                 .build();
+
+        try {
+            kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(alarmDataHolder));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return alarmDataHolder;
     }
 
     public List<Alarm> list() {
