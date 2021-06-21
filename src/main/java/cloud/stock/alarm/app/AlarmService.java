@@ -205,14 +205,8 @@ public class AlarmService {
 
     private void produceKafkaMessage(AlarmDataHolder alarmDataHolder) {
         try {
-            SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
-            Date marketStart = parser.parse("09:00");
-            Date marketEnd = parser.parse("15:30");
-            Date now = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
-            if(now.after(marketStart) && now.before(marketEnd)) {
-                kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(alarmDataHolder));
-            }
-        } catch (JsonProcessingException | ParseException e) {
+            kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(alarmDataHolder));
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
     }
