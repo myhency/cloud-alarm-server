@@ -52,11 +52,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-//                .antMatchers("/api/v1/platform/auth/**").permitAll()
-//                .antMatchers("/api/v1/platform/alarm/**").hasRole("USER")
-//                .antMatchers("/api/v1/platform/stockItem/**").hasRole("USER")
-//                .anyRequest().authenticated()
+//                .antMatchers("/**").permitAll()
+                .antMatchers("/api/v1/platform/auth/**").permitAll()
+                .antMatchers("/api/v1/platform/alarm/**").hasRole("USER")
+                .antMatchers("/api/v1/platform/stockItem/**").hasRole("USER")
+                .antMatchers("/api/v1/platform/admin").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))

@@ -17,7 +17,8 @@ public interface AlarmHistoryRepository extends JpaRepository<AlarmHistory, Long
             "AND ah.itemCode NOT IN (" +
             "   SELECT a.itemCode " +
             "   FROM Alarm a" +
-            ")"
+            ")" +
+            "ORDER BY ah.modifiedDate DESC"
     )
     List<AlarmHistory> findAllByAlarmStatusOrderByModifiedDateDesc(
             @Param("alarmStatus") AlarmStatus alarmStatus

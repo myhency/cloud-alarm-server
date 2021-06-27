@@ -338,4 +338,9 @@ public class AlarmRestController {
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(alarmHistoryService.getAlarmDetail(alarmId)));
     }
+
+    @GetMapping(value = "/admin")
+    public String adminTest() {
+        return "okay";
+    }
 }
