@@ -17,7 +17,18 @@ public interface VolumeRepository extends JpaRepository<Volume, Long> {
     @Query(value = "SELECT distinct date_format(created_date, '%Y-%m-%d') FROM volume ORDER BY 1 DESC", nativeQuery = true)
     Collection<String> findAllDates();
 
-    @Query(value = "SELECT v.*, si.theme as theme\n" +
+    @Query(value = "SELECT v.id, " +
+            "v.modified_date, " +
+            "v.created_date, " +
+            "v.closing_price, " +
+            "v.fluctuation_rate, " +
+            "v.item_code, " +
+            "v.item_name, " +
+            "v.market_cap, " +
+            "v.number_of_outstanding_shares, " +
+            "v.volume, " +
+            "v.market_type, " +
+            "si.theme as theme\n" +
             "FROM volume v left outer join stock_item si " +
             "on v.item_code = si.item_code\n" +
             "WHERE v.created_date " +
