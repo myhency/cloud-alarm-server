@@ -54,7 +54,8 @@ public class Volume extends BaseTimeEntity {
                                                      final Integer volume,
                                                      final Integer numberOfOutstandingShares,
                                                      final Integer marketCap,
-                                                     final String marketType) {
+                                                     final String marketType
+    ) {
         return new Volume(itemName, itemCode, closingPrice, fluctuationRate, volume, numberOfOutstandingShares, marketCap, marketType);
     }
 }
