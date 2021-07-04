@@ -19,7 +19,7 @@ import java.util.Optional;
 @Repository
 public class JdbcTemplateStockItemDao implements StockItemDao {
 
-    private static final String TABLE_NAME = "stockitems";
+    private static final String TABLE_NAME = "stockitem";
     private static final String KEY_COLUMN_NAME = "id";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -67,9 +67,8 @@ public class JdbcTemplateStockItemDao implements StockItemDao {
                 "id, " +
                 "item_code, " +
                 "item_name, " +
-                "theme, " +
-                "created_at, last_updated_at " +
-                "FROM stockitems " +
+                "theme " +
+                "FROM stock_item " +
                 "WHERE item_code = (:itemCode)";
         final SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("itemCode", itemCode);
