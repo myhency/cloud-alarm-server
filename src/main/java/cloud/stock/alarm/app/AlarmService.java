@@ -124,6 +124,7 @@ public class AlarmService {
                 .comment(toBeModifiedAlarm.getComment())
                 .theme(toBeModifiedAlarm.getTheme())
                 .alarmStatus(toBeModifiedAlarm.getAlarmStatus().name())
+                .createdDate(toBeModifiedAlarm.getCreatedDate())
                 .modifiedDate(toBeModifiedAlarm.getModifiedDate())
                 .build();
 
