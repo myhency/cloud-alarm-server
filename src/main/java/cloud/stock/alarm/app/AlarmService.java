@@ -1,6 +1,7 @@
 package cloud.stock.alarm.app;
 
 import cloud.stock.alarm.domain.alarm.Alarm;
+import cloud.stock.alarm.domain.alarmHistory.AlarmHistory;
 import cloud.stock.alarm.infra.AlarmRepository;
 import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
 import cloud.stock.alarm.domain.exceptions.InvalidAlarmModificationDataException;
@@ -238,4 +239,10 @@ public class AlarmService {
     }
 
 
+    public List<Alarm> getAlarmsByStatus(String alarmStatus) {
+        return alarmRepository
+                .findAllByAlarmStatusOrderByModifiedDateDesc(
+                        AlarmStatus.valueOf(alarmStatus)
+                );
+    }
 }

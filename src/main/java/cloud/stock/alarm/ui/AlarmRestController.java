@@ -315,12 +315,40 @@ public class AlarmRestController {
                     )
             )
     })
-    public ResponseEntity selectAlarmByStatus(
+    public ResponseEntity selectAlarmHistoryByStatus(
             @RequestParam(value = "status") String alarmStatus
     ) {
         List<AlarmHistory> alarmHistories = alarmHistoryService.getAlarmsByStatus(alarmStatus);
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(alarmHistories));
+    }
+
+    @GetMapping(value = "/alarm/stockItem/status")
+    @Operation(
+            summary = "알람상태로 조회",
+            description = "알람상태별로 알람 리스트를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "알람리스트 조회 성공",
+                    content = @Content(schema = @Schema(
+                            implementation = List.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "알람리스트 조회 실패",
+                    content = @Content(schema = @Schema(
+                            implementation = EmptyResultDataAccessException.class)
+                    )
+            )
+    })
+    public ResponseEntity selectAlarmByStatus(
+            @RequestParam(value = "status") String alarmStatus
+    ) {
+        List<Alarm> alarmList = alarmService.getAlarmsByStatus(alarmStatus);
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(alarmList));
     }
 
     @GetMapping(value = "/alarm/history/{alarmId}")
