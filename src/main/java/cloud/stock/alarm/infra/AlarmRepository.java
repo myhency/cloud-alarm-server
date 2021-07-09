@@ -17,7 +17,7 @@ public interface AlarmRepository extends JpaRepository<Alarm, Long> {
     Alarm findOneByItemCode(String itemCode);
 
     @Query(value = "SELECT a " +
-            "FROM Alarm a" +
+            "FROM Alarm a " +
             "WHERE a.alarmStatus= :alarmStatus " +
             "ORDER BY a.modifiedDate DESC"
     )
