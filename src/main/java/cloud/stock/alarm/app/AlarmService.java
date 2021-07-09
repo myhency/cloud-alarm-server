@@ -133,6 +133,31 @@ public class AlarmService {
         return alarmDataHolder;
     }
 
+    @Transactional
+    public AlarmDataHolder deleteAlarm(Long alarmId) {
+        Alarm toBeDeletedAlarm = alarmRepository.findById(alarmId)
+                .orElseThrow(NotExistAlarmException::new);
+
+        alarmRepository.delete(toBeDeletedAlarm);
+
+        AlarmDataHolder alarmDataHolder = AlarmDataHolder.builder()
+                .alarmId(toBeDeletedAlarm.getAlarmId())
+                .itemName(toBeDeletedAlarm.getItemName())
+                .itemCode(toBeDeletedAlarm.getItemCode())
+                .recommendPrice(toBeDeletedAlarm.getRecommendPrice())
+                .losscutPrice(toBeDeletedAlarm.getLosscutPrice())
+                .comment(toBeDeletedAlarm.getComment())
+                .theme(toBeDeletedAlarm.getTheme())
+                .alarmStatus(AlarmStatus.DELETED.name())
+                .createdDate(toBeDeletedAlarm.getCreatedDate())
+                .modifiedDate(toBeDeletedAlarm.getModifiedDate())
+                .build();
+
+        produceKafkaMessage(alarmDataHolder);
+
+        return alarmDataHolder;
+    }
+
     public List<Alarm> list() {
         //TODO. 페이징처리 해야함.
         return alarmRepository.findAll(Sort.by(Sort.Direction.DESC, "modifiedDate"));
@@ -211,4 +236,6 @@ public class AlarmService {
             e.printStackTrace();
         }
     }
+
+
 }

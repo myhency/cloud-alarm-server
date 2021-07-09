@@ -149,6 +149,15 @@ public class AlarmRestController {
                 .ok(new ResponseDto<>(modifiedAlarm));
     }
 
+    @DeleteMapping(value = "/alarm/stockItem/{alarmId}")
+    public ResponseEntity deleteAlarm(@PathVariable final Long alarmId) {
+        final AlarmDataHolder deletedAlarm = alarmService.deleteAlarm(alarmId);
+
+        alarmHistoryService.saveAlarmHistory(deletedAlarm);
+        return ResponseEntity
+                .ok(new ResponseDto<>(deletedAlarm));
+    }
+
     @GetMapping(value = "/alarm/stockItem")
     @Operation(
             summary = "전체알람조회",
