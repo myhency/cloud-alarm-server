@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface StockItemRepository extends JpaRepository<StockItem, String> {
 
     Optional<StockItem> findByItemCode(String itemCode);
+
+    StockItem findOneByItemCode(String itemCode);
 }
