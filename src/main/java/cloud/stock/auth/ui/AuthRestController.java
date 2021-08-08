@@ -3,6 +3,7 @@ package cloud.stock.auth.ui;
 import cloud.stock.auth.config.JwtTokenProvider;
 import cloud.stock.auth.domain.User;
 import cloud.stock.auth.domain.exceptions.LoginFailException;
+import cloud.stock.auth.domain.exceptions.UserNotExistsException;
 import cloud.stock.auth.infra.UserRepository;
 import cloud.stock.common.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,10 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
@@ -54,5 +52,15 @@ public class AuthRestController {
                         member.getUsername(),
                         member.getRoles()))
                 );
+    }
+
+    @PutMapping("/auth/changePassword")
+    @Operation(summary = "비밀번호변경", description = "비밀번호변경 API 입니다.")
+    public Long changePassword(@RequestBody Map<String, String> user) {
+        User member = userRepository.findByUserName(user.get("userName"))
+                .orElseThrow(() -> new UserNotExistsException());
+
+        member.setPassword(passwordEncoder.encode(user.get("password")));
+        return userRepository.save(member).getId();
     }
 }
