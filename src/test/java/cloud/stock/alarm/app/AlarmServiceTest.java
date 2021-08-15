@@ -89,6 +89,7 @@ class AlarmServiceTest {
         AlarmDataHolder alarmDataHolder = alarmService.create(
                 itemName,
                 itemCode,
+                null,
                 recommendPrice,
                 losscutPrice,
                 comment,

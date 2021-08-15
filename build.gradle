@@ -37,7 +37,6 @@ dependencies {
 //    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.7.3'
     implementation 'mysql:mysql-connector-java'
     implementation 'org.springframework.kafka:spring-kafka'
-
 }
 
 test {

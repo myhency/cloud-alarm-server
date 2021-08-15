@@ -20,6 +20,7 @@ public class Alarm extends BaseTimeEntity {
     private Long alarmId;
     private String itemName;
     private String itemCode;
+    private Integer closingPrice;
     private Integer recommendPrice;
     private Integer losscutPrice;
     private String comment;
@@ -29,6 +30,7 @@ public class Alarm extends BaseTimeEntity {
 
     private Alarm(String itemName,
                 String itemCode,
+                Integer closingPrice,
                 Integer recommendPrice,
                 Integer losscutPrice,
                 String comment,
@@ -37,6 +39,7 @@ public class Alarm extends BaseTimeEntity {
 
         this.itemName = itemName;
         this.itemCode = itemCode;
+        this.closingPrice = closingPrice;
         this.recommendPrice = recommendPrice;
         this.losscutPrice = losscutPrice;
         this.comment = comment;
@@ -60,10 +63,11 @@ public class Alarm extends BaseTimeEntity {
 
     public static Alarm createAlarmCreationRequest(String itemName,
                                                    String itemCode,
+                                                   Integer closingPrice,
                                                    Integer recommendPrice,
                                                    Integer losscutPrice,
                                                    String comment,
                                                    String theme) {
-        return new Alarm(itemName, itemCode, recommendPrice, losscutPrice, comment, theme);
+        return new Alarm(itemName, itemCode, closingPrice, recommendPrice, losscutPrice, comment, theme);
     }
 }

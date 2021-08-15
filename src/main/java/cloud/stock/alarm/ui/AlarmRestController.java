@@ -85,6 +85,7 @@ public class AlarmRestController {
         final AlarmDataHolder createdAlarm = alarmService.create(
                 alarmCreationRequestDto.getItemName(),
                 alarmCreationRequestDto.getItemCode(),
+                null,
                 alarmCreationRequestDto.getRecommendPrice(),
                 alarmCreationRequestDto.getLosscutPrice(),
                 alarmCreationRequestDto.getComment(),
@@ -374,6 +375,13 @@ public class AlarmRestController {
     public ResponseEntity selectAlarmHistory(@PathVariable Long alarmId) {
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(alarmHistoryService.getAlarmDetail(alarmId)));
+    }
+
+    @PostMapping(value = "/alarm/stockItem/closingPrice/{alarmId}")
+    public ResponseEntity updateAlarmClosingPrice(@PathVariable Long alarmId,
+                                                  @RequestBody AlarmClosingPriceUpdateRequestDto alarmClosingPriceUpdateRequestDto) {
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(alarmService.updateClosingPrice(alarmId, alarmClosingPriceUpdateRequestDto)));
     }
 
     @GetMapping(value = "/admin")

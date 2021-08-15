@@ -15,6 +15,7 @@ public class AlarmDataHolder {
     private Long alarmId;
     private String itemName;
     private String itemCode;
+    private Integer closingPrice;
     private Integer recommendPrice;
     private Integer losscutPrice;
     private String comment;

@@ -8,12 +8,15 @@ import cloud.stock.alarm.domain.exceptions.InvalidAlarmModificationDataException
 import cloud.stock.alarm.domain.exceptions.NotExistAlarmException;
 import cloud.stock.alarm.domain.strategy.AlarmStatus;
 import cloud.stock.alarm.ui.dataholder.AlarmDataHolder;
+import cloud.stock.alarm.ui.dto.AlarmClosingPriceUpdateRequestDto;
 import cloud.stock.stockitem.infra.StockItemRepository;
 import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -40,6 +43,7 @@ public class AlarmService {
     @Transactional
     public AlarmDataHolder create(final String itemName,
                                   final String itemCode,
+                                  final Integer closingPrice,
                                   final Integer recommendPrice,
                                   final Integer losscutPrice,
                                   final String comment,
@@ -54,6 +58,7 @@ public class AlarmService {
         Alarm newAlarm = Alarm.createAlarmCreationRequest(
                 itemName,
                 itemCode,
+                closingPrice,
                 recommendPrice,
                 losscutPrice,
                 comment,
@@ -66,6 +71,7 @@ public class AlarmService {
                 .alarmId(newAlarm.getAlarmId())
                 .itemName(newAlarm.getItemName())
                 .itemCode(newAlarm.getItemCode())
+                .closingPrice(newAlarm.getClosingPrice())
                 .recommendPrice(newAlarm.getRecommendPrice())
                 .losscutPrice(newAlarm.getLosscutPrice())
                 .comment(newAlarm.getComment())
@@ -244,5 +250,17 @@ public class AlarmService {
                 .findAllByAlarmStatusOrderByModifiedDateDesc(
                         AlarmStatus.valueOf(alarmStatus)
                 );
+    }
+
+    @Transactional
+    public Long updateClosingPrice(Long alarmId, AlarmClosingPriceUpdateRequestDto alarmClosingPriceUpdateRequestDto) {
+        Alarm toBeUpdatedAlarm = alarmRepository.findById(alarmId)
+                .orElseThrow(NotExistAlarmException::new);
+
+        toBeUpdatedAlarm.setClosingPrice(alarmClosingPriceUpdateRequestDto.getClosingPrice());
+
+        alarmRepository.save(toBeUpdatedAlarm);
+
+        return alarmId;
     }
 }
