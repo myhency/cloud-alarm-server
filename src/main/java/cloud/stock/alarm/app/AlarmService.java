@@ -258,6 +258,7 @@ public class AlarmService {
                 .orElseThrow(NotExistAlarmException::new);
 
         toBeUpdatedAlarm.setClosingPrice(alarmClosingPriceUpdateRequestDto.getClosingPrice());
+        toBeUpdatedAlarm.setModifiedDate(toBeUpdatedAlarm.getModifiedDate());
 
         alarmRepository.save(toBeUpdatedAlarm);
 
