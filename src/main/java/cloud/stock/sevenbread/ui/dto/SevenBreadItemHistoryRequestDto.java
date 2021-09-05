@@ -17,4 +17,5 @@ public class SevenBreadItemHistoryRequestDto {
     private Integer lowestPrice;
     private Integer closingPrice;
     private String capturedDate;
+    private Integer capturedPrice;
 }

@@ -20,6 +20,7 @@ public class SevenBreadItemHistoryDataHolder {
     private Integer lowestPrice;
     private Integer closingPrice;
     private String capturedDate;
+    private Integer capturedPrice;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 }

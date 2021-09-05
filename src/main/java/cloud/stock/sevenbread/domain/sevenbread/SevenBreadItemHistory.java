@@ -25,6 +25,7 @@ public class SevenBreadItemHistory extends BaseTimeEntity {
     private Integer lowestPrice;
     private Integer closingPrice;
     private String capturedDate;
+    private Integer capturedPrice;
 
     public SevenBreadItemHistory(String itemName,
                                  String itemCode,
@@ -32,7 +33,9 @@ public class SevenBreadItemHistory extends BaseTimeEntity {
                                  Integer highestPrice,
                                  Integer lowestPrice,
                                  Integer closingPrice,
-                                 String capturedDate) {
+                                 String capturedDate,
+                                 Integer capturedPrice
+    ) {
         this.itemName = itemName;
         this.itemCode = itemCode;
         this.startingPrice = startingPrice;
@@ -40,6 +43,7 @@ public class SevenBreadItemHistory extends BaseTimeEntity {
         this.lowestPrice = lowestPrice;
         this.closingPrice = closingPrice;
         this.capturedDate = capturedDate;
+        this.capturedPrice = capturedPrice;
     }
 
     public static SevenBreadItemHistory createSevenBreadItemHistory(String itemName,
@@ -48,8 +52,9 @@ public class SevenBreadItemHistory extends BaseTimeEntity {
                                                                     Integer highestPrice,
                                                                     Integer lowestPrice,
                                                                     Integer closingPrice,
-                                                                    String capturedDate
+                                                                    String capturedDate,
+                                                                    Integer capturedPrice
     ) {
-        return new SevenBreadItemHistory(itemName, itemCode, startingPrice, highestPrice, lowestPrice, closingPrice, capturedDate);
+        return new SevenBreadItemHistory(itemName, itemCode, startingPrice, highestPrice, lowestPrice, closingPrice, capturedDate, capturedPrice);
     }
 }

@@ -22,7 +22,8 @@ public class SevenBreadHistoryService {
                                                   Integer highestPrice,
                                                   Integer lowestPrice,
                                                   Integer closingPrice,
-                                                  String capturedDate
+                                                  String capturedDate,
+                                                  Integer capturedPrice
     ) {
         SevenBreadItemHistory newSevenBreadItemHistory = SevenBreadItemHistory.createSevenBreadItemHistory(
                 itemName,
@@ -31,7 +32,8 @@ public class SevenBreadHistoryService {
                 highestPrice,
                 lowestPrice,
                 closingPrice,
-                capturedDate
+                capturedDate,
+                capturedPrice
         );
 
         newSevenBreadItemHistory = sevenBreadHistoryRepository.save(newSevenBreadItemHistory);

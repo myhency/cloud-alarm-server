@@ -123,7 +123,8 @@ public class SevenBreadRestController {
                 sevenBreadItemHistoryRequestDto.getHighestPrice(),
                 sevenBreadItemHistoryRequestDto.getLowestPrice(),
                 sevenBreadItemHistoryRequestDto.getClosingPrice(),
-                sevenBreadItemHistoryRequestDto.getCapturedDate()
+                sevenBreadItemHistoryRequestDto.getCapturedDate(),
+                sevenBreadItemHistoryRequestDto.getCapturedPrice()
         );
 
         return ResponseEntity.created(
