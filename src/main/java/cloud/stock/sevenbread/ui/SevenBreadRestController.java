@@ -1,10 +1,13 @@
 package cloud.stock.sevenbread.ui;
 
 import cloud.stock.common.ResponseDto;
+import cloud.stock.sevenbread.app.SevenBreadHistoryService;
 import cloud.stock.sevenbread.app.SevenBreadService;
 import cloud.stock.sevenbread.infra.SevenBreadRepository;
 import cloud.stock.sevenbread.ui.dataholder.SevenBreadItemDataHolder;
+import cloud.stock.sevenbread.ui.dataholder.SevenBreadItemHistoryDataHolder;
 import cloud.stock.sevenbread.ui.dto.SevenBreadItemCreationRequestDto;
+import cloud.stock.sevenbread.ui.dto.SevenBreadItemHistoryRequestDto;
 import cloud.stock.sevenbread.ui.dto.SevenBreadItemUpdateRequestDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +30,11 @@ import java.net.URISyntaxException;
 )
 public class SevenBreadRestController {
     private final SevenBreadService sevenBreadService;
+    private final SevenBreadHistoryService sevenBreadHistoryService;
 
-    public SevenBreadRestController(SevenBreadService sevenBreadService) {
+    public SevenBreadRestController(SevenBreadService sevenBreadService, SevenBreadHistoryService sevenBreadHistoryService) {
         this.sevenBreadService = sevenBreadService;
+        this.sevenBreadHistoryService = sevenBreadHistoryService;
     }
 
     @PostMapping(value = "/sevenbread/item")
@@ -105,5 +110,24 @@ public class SevenBreadRestController {
         final SevenBreadItemDataHolder deletedSevenBreadItem = sevenBreadService.delete(id);
 
         return ResponseEntity.ok().body(new ResponseDto<>(deletedSevenBreadItem));
+    }
+
+    @PostMapping(value = "/sevenbread/item/history")
+    public ResponseEntity createSevenBreadItemHistory(
+            @RequestBody SevenBreadItemHistoryRequestDto sevenBreadItemHistoryRequestDto
+    ) throws URISyntaxException {
+        final SevenBreadItemHistoryDataHolder createdSevenBreadItemHistory = sevenBreadHistoryService.create(
+                sevenBreadItemHistoryRequestDto.getItemName(),
+                sevenBreadItemHistoryRequestDto.getItemCode(),
+                sevenBreadItemHistoryRequestDto.getStartingPrice(),
+                sevenBreadItemHistoryRequestDto.getHighestPrice(),
+                sevenBreadItemHistoryRequestDto.getLowestPrice(),
+                sevenBreadItemHistoryRequestDto.getClosingPrice(),
+                sevenBreadItemHistoryRequestDto.getCapturedDate()
+        );
+
+        return ResponseEntity.created(
+                new URI("/sevenbread/item/history" + createdSevenBreadItemHistory.getId()))
+                .body(new ResponseDto<>(createdSevenBreadItemHistory));
     }
 }

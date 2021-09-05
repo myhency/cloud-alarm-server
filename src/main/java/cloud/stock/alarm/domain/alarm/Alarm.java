@@ -19,6 +19,7 @@ public class Alarm extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long alarmId;
     private String itemName;
+    @Column(unique = true)
     private String itemCode;
     private Integer closingPrice;
     private Integer recommendPrice;
