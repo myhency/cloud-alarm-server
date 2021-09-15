@@ -120,4 +120,32 @@ public class AnalyzeRestController {
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(volumeService.detailList(date)));
     }
+
+    @GetMapping(value = "/analyze/volume/search")
+    @Operation(
+            summary = "날짜별 유통주식수 대비 거래량비율 리스트 조회(with search option)",
+            description = "특정 날짜의 유통주식수 대비 거래량비율을 조회합니다.\n 종목명 또는 테마의 특정 키워드로 조회합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "날짜별 유통주식수 대비 거래량비율 리스트 조회(with search option) 성공",
+                    content = @Content(
+                            schema = @Schema(
+                                    implementation = List.class
+                            )
+                    )
+            ),
+    })
+    public ResponseEntity selectAnalyzeVolumeBy(
+            @RequestParam(value = "by") String by,
+            @RequestParam(value = "filter") String filter
+    ) {
+        if (by.equals("1"))
+            return ResponseEntity.ok()
+                .body(new ResponseDto<>(volumeService.getAnalyzeVolueByItemName(filter)));
+
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(volumeService.getAnalyzeVolueByTheme(filter)));
+    }
 }

@@ -70,4 +70,12 @@ public class VolumeService {
         LocalDateTime to = from.plusDays(1);
         return volumeRepository.findAllByCreatedDateBetween(from, to);
     }
+
+    public List<Volume> getAnalyzeVolueByItemName(String filter) {
+        return volumeRepository.findAllByItemName(filter);
+    }
+
+    public List<Volume> getAnalyzeVolueByTheme(String filter) {
+        return volumeRepository.findAllByTheme(filter);
+    }
 }
