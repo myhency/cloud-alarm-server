@@ -50,7 +50,8 @@ public interface VolumeRepository extends JpaRepository<Volume, Long> {
             "si.theme as theme\n" +
             "FROM volume v left outer join stock_item si " +
             "on v.item_code = si.item_code\n" +
-            "WHERE v.item_name = :itemName ", nativeQuery = true)
+            "WHERE v.item_name = :itemName " +
+            "ORDER BY created_date DESC ", nativeQuery = true)
     List<Volume> findAllByItemName(@Param("itemName") String itemName);
 
     @Query(value = "SELECT v.id, " +
@@ -67,6 +68,7 @@ public interface VolumeRepository extends JpaRepository<Volume, Long> {
             "si.theme as theme\n" +
             "FROM volume v left outer join stock_item si " +
             "on v.item_code = si.item_code\n" +
-            "WHERE si.theme like %:theme%", nativeQuery = true)
+            "WHERE si.theme like %:theme%" +
+            "ORDER BY created_date DESC ", nativeQuery = true)
     List<Volume> findAllByTheme(@Param("theme") String theme);
 }
