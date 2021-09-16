@@ -5,8 +5,11 @@ import cloud.stock.sevenbread.domain.exceptions.NotExistSevenBreadItemException;
 import cloud.stock.sevenbread.domain.sevenbread.SevenBreadItem;
 import cloud.stock.sevenbread.infra.SevenBreadRepository;
 import cloud.stock.sevenbread.ui.dataholder.SevenBreadItemDataHolder;
+import cloud.stock.sevenbread.ui.dto.SevenBreadItemCreationRequestDto;
 import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
 import cloud.stock.stockitem.infra.StockItemRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -25,6 +28,7 @@ public class SevenBreadService {
     private final StockItemRepository stockItemRepository;
     private static final String TOPIC = "seven_bread";
     private final KafkaTemplate<String, String> kafkaTemplate;
+    private final ObjectMapper objectMapper;
 
     @Transactional
     public SevenBreadItemDataHolder create(String itemName,
@@ -46,7 +50,13 @@ public class SevenBreadService {
 
         newSevenBreadItem = sevenBreadRepository.save(newSevenBreadItem);
 
-        produceKafkaMessage(itemCode);
+        produceKafkaMessage(new SevenBreadItemCreationRequestDto(
+                newSevenBreadItem.getItemName(),
+                newSevenBreadItem.getItemCode(),
+                newSevenBreadItem.getMajorHandler(),
+                newSevenBreadItem.getCapturedDate(),
+                newSevenBreadItem.getTheme()
+        ));
 
         return SevenBreadItemDataHolder.builder()
                 .id(newSevenBreadItem.getId())
@@ -113,8 +123,12 @@ public class SevenBreadService {
         return sevenBreadRepository.findAll(Sort.by(Sort.Direction.DESC, "capturedDate"));
     }
 
-    private void produceKafkaMessage(String itemCode) {
-        kafkaTemplate.send(TOPIC, itemCode);
+    private void produceKafkaMessage(SevenBreadItemCreationRequestDto sevenBreadItemCreationRequestDto) {
+        try {
+            kafkaTemplate.send(TOPIC, objectMapper.writeValueAsString(sevenBreadItemCreationRequestDto));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     public SevenBreadItem getSevenBreadItemDetailByItemCode(String itemCode) {
