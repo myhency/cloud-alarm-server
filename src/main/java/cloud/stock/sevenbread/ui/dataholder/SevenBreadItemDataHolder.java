@@ -22,7 +22,7 @@ public class SevenBreadItemDataHolder {
     private Integer volume;
     private String majorHandler;
     private String theme;
-    private LocalDateTime capturedDate;
+    private String capturedDate;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 }

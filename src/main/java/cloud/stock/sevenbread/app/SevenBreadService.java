@@ -3,6 +3,7 @@ package cloud.stock.sevenbread.app;
 import cloud.stock.sevenbread.domain.exceptions.AlreadyExistSevenBreadItemException;
 import cloud.stock.sevenbread.domain.exceptions.NotExistSevenBreadItemException;
 import cloud.stock.sevenbread.domain.sevenbread.SevenBreadItem;
+import cloud.stock.sevenbread.infra.SevenBreadDeletedRepository;
 import cloud.stock.sevenbread.infra.SevenBreadRepository;
 import cloud.stock.sevenbread.ui.dataholder.SevenBreadItemDataHolder;
 import cloud.stock.sevenbread.ui.dto.SevenBreadItemCreationRequestDto;
@@ -116,6 +117,11 @@ public class SevenBreadService {
 
         return SevenBreadItemDataHolder.builder()
                 .id(toBeDeletedSevenBreadItem.getId())
+                .itemCode(toBeDeletedSevenBreadItem.getItemCode())
+                .itemName(toBeDeletedSevenBreadItem.getItemName())
+                .capturedPrice(toBeDeletedSevenBreadItem.getCapturedPrice())
+                .majorHandler(toBeDeletedSevenBreadItem.getMajorHandler())
+                .capturedDate(toBeDeletedSevenBreadItem.getCapturedDate())
                 .build();
     }
 

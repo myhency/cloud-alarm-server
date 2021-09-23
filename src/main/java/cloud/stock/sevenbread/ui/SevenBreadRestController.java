@@ -1,9 +1,11 @@
 package cloud.stock.sevenbread.ui;
 
 import cloud.stock.common.ResponseDto;
+import cloud.stock.sevenbread.app.SevenBreadDeletedService;
 import cloud.stock.sevenbread.app.SevenBreadHistoryService;
 import cloud.stock.sevenbread.app.SevenBreadService;
 import cloud.stock.sevenbread.infra.SevenBreadRepository;
+import cloud.stock.sevenbread.ui.dataholder.SevenBreadDeletedItemDataHolder;
 import cloud.stock.sevenbread.ui.dataholder.SevenBreadItemDataHolder;
 import cloud.stock.sevenbread.ui.dataholder.SevenBreadItemHistoryDataHolder;
 import cloud.stock.sevenbread.ui.dto.SevenBreadItemCreationRequestDto;
@@ -31,10 +33,15 @@ import java.net.URISyntaxException;
 public class SevenBreadRestController {
     private final SevenBreadService sevenBreadService;
     private final SevenBreadHistoryService sevenBreadHistoryService;
+    private final SevenBreadDeletedService sevenBreadDeletedService;
 
-    public SevenBreadRestController(SevenBreadService sevenBreadService, SevenBreadHistoryService sevenBreadHistoryService) {
+    public SevenBreadRestController(SevenBreadService sevenBreadService,
+                                    SevenBreadHistoryService sevenBreadHistoryService,
+                                    SevenBreadDeletedService sevenBreadDeletedService
+    ) {
         this.sevenBreadService = sevenBreadService;
         this.sevenBreadHistoryService = sevenBreadHistoryService;
+        this.sevenBreadDeletedService = sevenBreadDeletedService;
     }
 
     @PostMapping(value = "/sevenbread/item")
@@ -103,13 +110,23 @@ public class SevenBreadRestController {
                 .body(new ResponseDto<>(sevenBreadService.getSevenBreadItemDetailByItemCode(itemCode)));
     }
 
-    @DeleteMapping(value = "/sevenbread/item/{id}")
+    @DeleteMapping(value = "/sevenbread/item/{id}/{action}")
     public ResponseEntity deleteSevenBreadItems(
-            @PathVariable Long id
+            @PathVariable Long id,
+            @PathVariable String action
     ) {
         final SevenBreadItemDataHolder deletedSevenBreadItem = sevenBreadService.delete(id);
 
-        return ResponseEntity.ok().body(new ResponseDto<>(deletedSevenBreadItem));
+        final SevenBreadDeletedItemDataHolder sevenBreadDeletedItemDataHolder = sevenBreadDeletedService.create(
+                deletedSevenBreadItem.getItemName(),
+                deletedSevenBreadItem.getItemCode(),
+                deletedSevenBreadItem.getCapturedPrice(),
+                deletedSevenBreadItem.getCapturedDate(),
+                deletedSevenBreadItem.getMajorHandler(),
+                action
+        );
+
+        return ResponseEntity.ok().body(new ResponseDto<>(sevenBreadDeletedItemDataHolder));
     }
 
     @PostMapping(value = "/sevenbread/item/history")
