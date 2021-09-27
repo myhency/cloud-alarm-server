@@ -148,4 +148,14 @@ public class SevenBreadRestController {
                 new URI("/sevenbread/item/history" + createdSevenBreadItemHistory.getId()))
                 .body(new ResponseDto<>(createdSevenBreadItemHistory));
     }
+
+    @GetMapping(value = "/sevenbread/statistics/history")
+    public ResponseEntity getSevenBreadStatisticsHistory() {
+        return ResponseEntity.ok().body(new ResponseDto<>(sevenBreadHistoryService.getStatistics()));
+    }
+
+    @GetMapping(value = "/sevenbread/deleted/history")
+    public ResponseEntity getSevenBreadDeletedWinItems() {
+        return ResponseEntity.ok().body(new ResponseDto<>(sevenBreadDeletedService.getSevenBreadDeletedWinItems()));
+    }
 }

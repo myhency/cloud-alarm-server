@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Component
 @AllArgsConstructor
@@ -32,5 +34,9 @@ public class SevenBreadDeletedService {
         return SevenBreadDeletedItemDataHolder.builder()
                 .id(newSevenBreadDeletedItem.getId())
                 .build();
+    }
+
+    public List<SevenBreadDeletedItem> getSevenBreadDeletedWinItems() {
+        return sevenBreadDeletedRepository.findAllByReason();
     }
 }
