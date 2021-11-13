@@ -1,0 +1,60 @@
+POST http://localhost:8080/api/v1/platform/item/stockItem
+Content-Type: application/json
+
+{
+  "itemCode": "005930"
+}
+
+//{
+//  "timestamp": "2021-11-13T14:22:47.715141",
+//  "message": "Bad Request",
+//  "code": "BAD-REQUEST",
+//  "status": 400
+//}
+//
+//Response code: 400; Time: 210ms; Content length: 100 bytes
+
+###
+
+POST http://localhost:8080/api/v1/platform/item/stockItem
+Content-Type: application/json
+
+{
+  "itemName": "삼성전자",
+  "itemCode": "005930"
+}
+
+//{
+//  "id": 1,
+//  "itemName": "삼성전자",
+//  "itemCode": "005930",
+//  "theme": null
+//}
+//
+//Response code: 201; Time: 143ms; Content length: 59 bytes
+
+###
+
+POST http://localhost:8080/api/v1/platform/item/stockItem
+Content-Type: application/json
+
+{
+  "itemName": "삼성전자",
+  "itemCode": "005930",
+  "theme": "반도체"
+}
+
+###
+
+GET http://localhost:8080/api/v1/platform/item/stockItem/00593
+
+#<Response body is empty>
+#
+#Response code: 204; Time: 103ms; Content length: 0 bytes
+
+###
+
+GET http://localhost:8080/api/v1/platform/item/stockItem?size=3&page=0
+
+###
+

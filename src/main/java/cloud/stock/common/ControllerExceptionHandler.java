@@ -1,15 +1,48 @@
 package cloud.stock.common;
 
 
+import cloud.stock.stockitem.domain.exceptions.AlreadyExistStockItemException;
+import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 
-//@ControllerAdvice
+@ControllerAdvice
 public class ControllerExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ErrorResponse> handleBadRequestException(MethodArgumentNotValidException e) {
+
+        ErrorResponse response = ErrorResponse
+                .create()
+                .status(ErrorCode.BAD_REQUEST.getStatus())
+                .message(ErrorCode.BAD_REQUEST.getMessage())
+                .code(ErrorCode.BAD_REQUEST.getCode());
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AlreadyExistStockItemException.class)
+    protected ResponseEntity<ErrorResponse> handleAlreadyExistException(RuntimeException e) {
+
+        ErrorResponse response = ErrorResponse
+                .create()
+                .status(ErrorCode.ALREADY_EXISTS.getStatus())
+                .message(ErrorCode.ALREADY_EXISTS.getMessage())
+                .code(ErrorCode.ALREADY_EXISTS.getCode());
+
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NotExistStockItemException.class)
+    protected ResponseEntity<ErrorResponse> handleNotExistException(NotExistStockItemException e) {
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    }
 
 //    @ExceptionHandler(InvalidParameterException.class)
     protected ResponseEntity<ErrorResponse> handleInvalidParameterException(InvalidParameterException e) {
