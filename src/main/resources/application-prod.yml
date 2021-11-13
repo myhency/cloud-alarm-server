@@ -1,0 +1,18 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka-docker_kafka_1:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  datasource:
+    url: jdbc:mysql://mariadb_db_1:3306/clouddb?useUnicoe=yes&characterEncoding=UTF-8
+    username: root
+    password: P!ssw0rd
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+logging:
+  level:
+    jdbc: trace
+    root: INFO
