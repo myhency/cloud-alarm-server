@@ -1,0 +1,5 @@
+GET http://localhost:8080/api/v1/platform/auth/user/my-info
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbG91ZCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2MzY3OTMyMTQsImV4cCI6MTYzNjg3OTYxNH0.qhunMcRYZthJQnh56A52JUT1hlXyRmKV4mkCCFJKxA8
+
+
+###

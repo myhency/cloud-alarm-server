@@ -1,6 +1,7 @@
 package cloud.stock.common;
 
 
+import cloud.stock.auth.domain.exceptions.UserNotExistsException;
 import cloud.stock.stockitem.domain.exceptions.AlreadyExistStockItemException;
 import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,8 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(NotExistStockItemException.class)
-    protected ResponseEntity<ErrorResponse> handleNotExistException(NotExistStockItemException e) {
+    @ExceptionHandler({NotExistStockItemException.class, UserNotExistsException.class})
+    protected ResponseEntity<ErrorResponse> handleNotExistException(RuntimeException e) {
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 

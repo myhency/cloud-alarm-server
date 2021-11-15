@@ -5,6 +5,7 @@ import cloud.stock.auth.domain.User;
 import cloud.stock.auth.domain.exceptions.LoginFailException;
 import cloud.stock.auth.domain.exceptions.UserNotExistsException;
 import cloud.stock.auth.infra.UserRepository;
+import cloud.stock.auth.ui.dto.GetUserResponseDto;
 import cloud.stock.common.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,10 +13,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -42,15 +47,20 @@ public class AuthRestController {
     @Operation(summary = "로그인", description = "로그인 API 입니다.")
     public ResponseEntity login(@RequestBody Map<String, String> user) {
         User member = userRepository.findByUserName(user.get("userName"))
-                .orElseThrow(() -> new LoginFailException());
+                .orElseThrow(LoginFailException::new);
         if (!passwordEncoder.matches(user.get("password"), member.getPassword())) {
             throw new LoginFailException();
         }
 
         return ResponseEntity
-                .ok(new ResponseDto<>(jwtTokenProvider.createToken(
-                        member.getUsername(),
-                        member.getRoles()))
+                .ok(new ResponseDto<>(GetUserResponseDto.builder()
+                        .userName(member.getUsername())
+                        .role(member.getRoles().get(0))
+                        .token(jwtTokenProvider.createToken(
+                                member.getUsername(),
+                                member.getRoles()))
+                        .build())
+
                 );
     }
 
@@ -62,5 +72,21 @@ public class AuthRestController {
 
         member.setPassword(passwordEncoder.encode(user.get("password")));
         return userRepository.save(member).getId();
+    }
+
+    @GetMapping("/auth/user/my-info")
+    @Operation(summary = "유저 정보 조회", description = "유저 정보 조회 API 입니다.")
+    public ResponseEntity getUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = ((UserDetails)principal).getUsername();
+
+        User member = userRepository.findByUserName(userName)
+                .orElseThrow(UserNotExistsException::new);
+
+        return ResponseEntity.ok(new ResponseDto<>(GetUserResponseDto.builder()
+                .userName(member.getUsername())
+                .role(member.getRoles().get(0))
+                .build()
+        ));
     }
 }
