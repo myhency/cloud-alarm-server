@@ -27,6 +27,7 @@ public class StockItem {
     @NotEmpty(message = "item code is required")
     @Column(name = "item_code", nullable = false)
     private String itemCode;
+    @Column(columnDefinition = "LONGTEXT")
     private String theme;
 
     public StockItem(@NotEmpty(message = "item name is required") String itemName, @NotEmpty(message = "item code is required") String itemCode, String theme) {

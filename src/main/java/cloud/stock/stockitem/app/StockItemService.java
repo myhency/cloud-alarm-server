@@ -76,4 +76,14 @@ public class StockItemService {
         return stockItemRepository.findByItemCode(itemCode)
                 .orElseThrow(NotExistStockItemException::new);
     }
+
+    @Transactional
+    public Long modify(StockItem stockItem) {
+        StockItem toBeChanged = stockItemRepository.findByItemCode(stockItem.getItemCode())
+                .orElseGet(() -> stockItemRepository.save(stockItem));
+
+        toBeChanged.setTheme(stockItem.getTheme());
+
+        return stockItemRepository.save(toBeChanged).getId();
+    }
 }

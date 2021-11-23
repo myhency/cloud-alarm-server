@@ -55,6 +55,12 @@ public class StockItemsController {
         return ResponseEntity.ok(stockItemService.changeName(stockItem));
     }
 
+    @PutMapping(value = "/item/stockItem/modify")
+    @Operation(summary = "종목수정", description = "특정 종목의 정보(category, theme)를 수정합니다.")
+    public ResponseEntity modifyStockItem(@RequestBody StockItem stockItem) {
+        return ResponseEntity.ok(stockItemService.modify(stockItem));
+    }
+
     @PutMapping(value = "/item/stockItem/{filterString}")
     @Operation(summary = "종목수정", description = "특정 종목의 종목명 또는 종목코드 또는 테마를 수정합니다.")
     public ResponseEntity modifyStockItem(@PathVariable String filterString, @RequestBody @Valid StockItemCreateRequest stockItemCreateRequest, BindingResult bindingResult) {

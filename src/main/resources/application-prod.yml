@@ -5,7 +5,7 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   datasource:
-    url: jdbc:mysql://mariadb_db-dev_1:3307/clouddb?useUnicoe=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://myhency.duckdns.org:13307/clouddb?useUnicoe=yes&characterEncoding=UTF-8
     username: root
     password: P!ssw0rd
     driver-class-name: com.mysql.cj.jdbc.Driver
