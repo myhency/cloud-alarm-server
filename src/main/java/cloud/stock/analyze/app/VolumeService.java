@@ -78,4 +78,8 @@ public class VolumeService {
     public List<Volume> getAnalyzeVolueByTheme(String filter) {
         return volumeRepository.findAllByTheme(filter);
     }
+
+    public List<Volume> getAnalzeVolumeByCategoryName(String dateStr, String categoryName) {
+        return volumeRepository.findAllByCategoryName(dateStr, categoryName);
+    }
 }

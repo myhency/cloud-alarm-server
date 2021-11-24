@@ -28,6 +28,6 @@ public interface ThemeCategoryRepository extends JpaRepository<ThemeCategory, Lo
             ")\n" +
             "group by b.category_name\n" +
             "order by count(b.category_name) desc\n" +
-            "limit 10", nativeQuery = true)
+            "limit 20", nativeQuery = true)
     Collection<Object> findThemeCategoriesByDate(String dateStr);
 }
