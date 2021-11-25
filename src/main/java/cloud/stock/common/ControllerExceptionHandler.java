@@ -58,7 +58,7 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.resolve(errorCode.getStatus()));
     }
 
-//    @ExceptionHandler(EmptyResultDataAccessException.class)
+    @ExceptionHandler(EmptyResultDataAccessException.class)
     protected ResponseEntity<ErrorResponse> handleEmptyResultDataAccessException(EmptyResultDataAccessException e) {
         ErrorCode errorCode = e.getErrorCode();
 
@@ -67,7 +67,7 @@ public class ControllerExceptionHandler {
                 .status(errorCode.getStatus())
                 .message(e.toString());
 
-        return new ResponseEntity<>(response, HttpStatus.resolve(errorCode.getStatus()));
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
 //    @ExceptionHandler(IllegalArgumentException.class)

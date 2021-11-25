@@ -3,6 +3,8 @@ package cloud.stock.analyze.app;
 import cloud.stock.analyze.domain.volume.Volume;
 import cloud.stock.analyze.infra.VolumeRepository;
 import cloud.stock.analyze.ui.dataholder.VolumeDataHolder;
+import cloud.stock.common.EmptyResultDataAccessException;
+import cloud.stock.common.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +82,11 @@ public class VolumeService {
     }
 
     public List<Volume> getAnalzeVolumeByCategoryName(String dateStr, String categoryName) {
-        return volumeRepository.findAllByCategoryName(dateStr, categoryName);
+        List<Volume> result = volumeRepository.findAllByCategoryName(dateStr, categoryName);
+        if (result.size() == 0) {
+            throw new EmptyResultDataAccessException(ErrorCode.EMPTY_RESULT);
+        }
+
+        return result;
     }
 }
