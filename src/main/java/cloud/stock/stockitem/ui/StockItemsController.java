@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -96,7 +97,7 @@ public class StockItemsController {
 
     @GetMapping(value = "/item/stockItem")
     @Operation(summary = "종목리스트 조회", description = "모든 종목의 정보를 조회합니다.")
-    public ResponseEntity selectStockItems(final Pageable pageable) {
+    public ResponseEntity selectStockItems(@PageableDefault(page = 0, size = Integer.MAX_VALUE) final Pageable pageable) {
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(stockItemService.list(pageable)));
     }

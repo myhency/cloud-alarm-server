@@ -2,6 +2,7 @@ package cloud.stock.common;
 
 
 import cloud.stock.auth.domain.exceptions.UserNotExistsException;
+import cloud.stock.sevenbread.domain.exceptions.AlreadyExistSevenBreadItemException;
 import cloud.stock.stockitem.domain.exceptions.AlreadyExistStockItemException;
 import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(AlreadyExistStockItemException.class)
+    @ExceptionHandler({AlreadyExistStockItemException.class, AlreadyExistSevenBreadItemException.class})
     protected ResponseEntity<ErrorResponse> handleAlreadyExistException(RuntimeException e) {
 
         ErrorResponse response = ErrorResponse
