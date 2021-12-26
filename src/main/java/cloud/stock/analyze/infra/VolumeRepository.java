@@ -50,7 +50,7 @@ public interface VolumeRepository extends JpaRepository<Volume, Long> {
             "si.theme as theme\n" +
             "FROM volume v left outer join stock_item si " +
             "on v.item_code = si.item_code\n" +
-            "WHERE v.item_name = :itemName " +
+            "WHERE v.item_name like %:itemName% " +
             "ORDER BY created_date DESC ", nativeQuery = true)
     List<Volume> findAllByItemName(@Param("itemName") String itemName);
 

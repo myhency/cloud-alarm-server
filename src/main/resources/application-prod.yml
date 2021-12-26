@@ -1,6 +1,6 @@
 spring:
   kafka:
-    bootstrap-servers: kafka-docker_kafka_1:9092
+    bootstrap-servers: myhency.duckdns.org:29093
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
