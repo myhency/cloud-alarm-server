@@ -62,4 +62,35 @@ public class ThemeCategoryService {
 
         return categoryCountByDateList;
     }
+
+    public List<ThemeCategoryByDateResponse> getCategoryCountByItemCodes(List<String> itemCodes) {
+        List<ThemeCategoryByDateResponse> categoryCountByDateList = new ArrayList<>();
+        List<Object> obj = (List)themeCategoryRepository.findThemeCategoriesByItemCodes(itemCodes);
+
+        if (obj.size() == 0) {
+            throw new EmptyResultDataAccessException(ErrorCode.EMPTY_RESULT);
+        }
+
+        obj.stream().forEach((item) -> {
+            ThemeCategoryByDateResponse themeCategoryByDateResponse = new ThemeCategoryByDateResponse();
+            Object[] arrayList = (Object[])item;
+            for(int i = 0; i < arrayList.length; i++) {
+                switch (i) {
+                    case 0:
+                        themeCategoryByDateResponse.setCategoryName((String)arrayList[i]);
+                        break;
+                    case 1:
+                        themeCategoryByDateResponse.setCount(((BigInteger)arrayList[i]).intValue());
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            categoryCountByDateList.add(themeCategoryByDateResponse);
+        });
+
+
+        return categoryCountByDateList;
+    }
 }
