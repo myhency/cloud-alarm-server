@@ -1,5 +1,6 @@
 # docker build -t cloud-alarm-server-renewal:v0.0.4-rc5 .
-# docker tag cloud-alarm-server-renewal:v0.0.4-rc4 hencyyeo/cloud-alarm-server-renewal:v0.0.4-rc5
+# docker build --platform linux/amd64 -t cloud-alarm-server-renewal:v0.0.4-rc6 .
+# docker tag cloud-alarm-server-renewal:v0.0.4-rc6 hencyyeo/cloud-alarm-server-renewal:v0.0.4-rc6
 # docker push hencyyeo/cloud-alarm-server-renewal:v0.0.4-rc5
 #docker run -itd --name cloud-backend-v2 -p 8081:8081 --network mariadb_default cloud-alarm-server-renewal:v0.0.2
 
