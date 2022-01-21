@@ -27,6 +27,6 @@ jobs:
         NAME: hencyyeo
         REPO: cloud-alarm-server-renewal
       run: |
-        docker build  --platform linux/amd64 -t $REPO:${{ github.head_ref }} .
-        docker tag $REPO:${{ github.head_ref }} $NAME/$REPO:${{ github.head_ref }}
-        docker push $NAME/$REPO:${{ github.head_ref }}
+        docker build --platform linux/amd64 -t $REPO:$GITHUB_REF .
+        docker tag $REPO:$GITHUB_REF $NAME/$REPO:$GITHUB_REF
+        docker push $NAME/$REPO:$GITHUB_REF
