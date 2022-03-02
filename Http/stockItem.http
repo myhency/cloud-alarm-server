@@ -1,0 +1,119 @@
+POST http://localhost:8080/api/v1/platform/item/stockItem
+Content-Type: application/json
+
+{
+  "itemCode": "005930"
+}
+
+###
+
+#{
+#  "timestamp": "2021-11-13T14:22:47.715141",
+#  "message": "Bad Request",
+#  "code": "BAD-REQUEST",
+#  "status": 400
+#}
+#
+#Response code: 400; Time: 210ms; Content length: 100 bytes
+
+###
+
+POST http://localhost:8080/api/v1/platform/item/stockItem
+Content-Type: application/json
+
+{
+  "itemName": "삼성전자",
+  "itemCode": "005930"
+}
+
+###
+
+#{
+#  "id": 1,
+#  "itemName": "삼성전자",
+#  "itemCode": "005930",
+#  "theme": null
+#}
+#
+#Response code: 201; Time: 143ms; Content length: 59 bytes
+
+###
+
+POST http://localhost:8080/api/v1/platform/item/stockItem
+Content-Type: application/json
+
+{
+  "itemName": "삼성전자",
+  "itemCode": "005930",
+  "theme": "반도체"
+}
+
+###
+
+GET http://localhost:8080/api/v1/platform/item/stockItem/00593
+
+#<Response body is empty>
+#
+#Response code: 204; Time: 103ms; Content length: 0 bytes
+
+###
+
+GET http://localhost:8080/api/v1/platform/item/stockItem?size=3&page=0
+
+#{
+#  "data": {
+#    "content": [
+#      {
+#        "id": 1,
+#        "itemName": "삼성전자",
+#        "itemCode": "005930",
+#        "theme": "3D 낸드(NAND), 4차산업 수혜주, 5G(5세대 이동통신), 가상현실(VR), 갤럭시 부품주, 고령화 사회(노인복지), 공기청정기, 마이크로 LED, 무선충전기술, 반도체 대표주(생산), 삼성페이, 스마트폰, 스마트홈(홈네트워크), 시스템반도체, 아이폰, 의료기기, 자율주행차, 제습기, 폴더블폰, 플렉서블 디스플레이, IT 대표주, LED, OLED(유기 발광 다이오드), RFID(NFC 등)"
+#      },
+#      {
+#        "id": 2,
+#        "itemName": "SK하이닉스",
+#        "itemCode": "000660",
+#        "theme": "3D 낸드(NAND), 반도체 대표주(생산), 시스템반도체, 아이폰, 자율주행차, IT 대표주"
+#      },
+#      {
+#        "id": 3,
+#        "itemName": "LG화학",
+#        "itemCode": "051910",
+#        "theme": "2차전지, 2차전지(생산), 고령화 사회(노인복지), 바이오시밀러(복제 바이오의약품), 석유화학, 아이폰, 전기차, 전력저장장치(ESS), 탄소나노튜브(CNT), K-뉴딜지수, K-뉴딜지수(2차전지), OLED(유기 발광 다이오드)"
+#      }
+#    ],
+#    "pageable": {
+#      "sort": {
+#        "sorted": false,
+#        "unsorted": true,
+#        "empty": true
+#      },
+#      "offset": 0,
+#      "pageNumber": 0,
+#      "pageSize": 3,
+#      "paged": true,
+#      "unpaged": false
+#    },
+#    "last": false,
+#    "totalPages": 791,
+#    "totalElements": 2373,
+#    "first": true,
+#    "size": 3,
+#    "numberOfElements": 3,
+#    "number": 0,
+#    "sort": {
+#      "sorted": false,
+#      "unsorted": true,
+#      "empty": true
+#    },
+#    "empty": false
+#  }
+#}
+#
+#Response code: 200; Time: 39ms; Content length: 909 bytes
+
+###
+
+GET http://localhost:8080/api/v1/platform/item/stockItem
+
+###

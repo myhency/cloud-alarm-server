@@ -4,7 +4,7 @@ import cloud.stock.alarm.domain.exceptions.AlreadyExistAlarmException;
 import cloud.stock.alarm.domain.exceptions.InvalidAlarmModificationDataException;
 import cloud.stock.alarm.domain.exceptions.NotExistAlarmException;
 import cloud.stock.common.ResponseDto;
-import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
+import cloud.stock.alarm.domain.exceptions.NotExistStockItemException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

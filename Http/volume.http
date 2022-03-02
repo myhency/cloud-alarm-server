@@ -1,0 +1,9 @@
+POST http://localhost:8080/api/v1/platform/item/theme/category/realtime
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjQyMDc4MDM4LCJleHAiOjE2NDIxNjQ0Mzh9.XRrOMTjQjhG6AUrGRrzYICHht3maZGhlS_Y3dhco-vA
+
+{
+  "itemCodes": ["019540", "012340"]
+}
+
+###

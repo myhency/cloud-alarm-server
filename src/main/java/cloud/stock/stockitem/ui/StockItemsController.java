@@ -6,6 +6,7 @@ import cloud.stock.common.ResponseDto;
 import cloud.stock.stockitem.StockItemCreateRequest;
 import cloud.stock.stockitem.app.StockItemService;
 import cloud.stock.stockitem.domain.StockItem;
+import cloud.stock.stockitem.domain.exceptions.AlreadyExistStockItemException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,9 +15,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,7 +41,8 @@ public class StockItemsController {
     @Operation(summary = "종목추가", description = "종목명, 종목코드, 테마를 추가합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "종목추가 성공",content = @Content(schema = @Schema(implementation = StockItem.class))),
-            @ApiResponse(responseCode = "400", description = "종목추가 실패", content = @Content(schema = @Schema(implementation = InvalidParameterException.class)))
+            @ApiResponse(responseCode = "400", description = "종목추가 실패", content = @Content(schema = @Schema(implementation = InvalidParameterException.class))),
+            @ApiResponse(responseCode = "409", description = "종목추가 실패", content = @Content(schema = @Schema(implementation = AlreadyExistStockItemException.class)))
     })
     public ResponseEntity createStockItem(@RequestBody @Valid StockItem stockItem) {
         final StockItem created = stockItemService.create(stockItem);
@@ -49,6 +54,12 @@ public class StockItemsController {
     @Operation(summary = "종목이름수정", description = "특정 종목의 종목명을 수정합니다.")
     public ResponseEntity modifyStockItemName(@RequestBody StockItem stockItem) {
         return ResponseEntity.ok(stockItemService.changeName(stockItem));
+    }
+
+    @PutMapping(value = "/item/stockItem/modify")
+    @Operation(summary = "종목수정", description = "특정 종목의 정보(category, theme)를 수정합니다.")
+    public ResponseEntity modifyStockItem(@RequestBody StockItem stockItem) {
+        return ResponseEntity.ok(stockItemService.modify(stockItem));
     }
 
     @PutMapping(value = "/item/stockItem/{filterString}")
@@ -63,10 +74,15 @@ public class StockItemsController {
         return ResponseEntity.ok().body(null);
     }
 
-    @GetMapping(value = "/item/stockItem/{filterString}")
+    @GetMapping(value = "/item/stockItem/{itemCode}")
     @Operation(summary = "종목조회", description = "특정 종목의 정보를 조회합니다.")
-    public ResponseEntity selectStockItem(@PathVariable String filterString) {
-        return ResponseEntity.ok().body(null);
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "종목조회 성공",content = @Content(schema = @Schema(implementation = StockItem.class))),
+            @ApiResponse(responseCode = "204", description = "종목 없음"),
+    })
+    public ResponseEntity selectStockItem(@PathVariable String itemCode) {
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(stockItemService.getStockItemByItemCode(itemCode)));
     }
 
     @GetMapping(value = "/item/stockItem/theme/{itemCode}")
@@ -81,8 +97,8 @@ public class StockItemsController {
 
     @GetMapping(value = "/item/stockItem")
     @Operation(summary = "종목리스트 조회", description = "모든 종목의 정보를 조회합니다.")
-    public ResponseEntity selectStockItems() {
+    public ResponseEntity selectStockItems(@PageableDefault(page = 0, size = Integer.MAX_VALUE) final Pageable pageable) {
         return ResponseEntity.ok()
-                .body(new ResponseDto<>(stockItemService.list()));
+                .body(new ResponseDto<>(stockItemService.list(pageable)));
     }
 }
