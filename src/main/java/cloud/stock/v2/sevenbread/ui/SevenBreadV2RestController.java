@@ -67,6 +67,20 @@ public class SevenBreadV2RestController {
                 .body(id);
     }
 
+    @PutMapping(value = "/v2/sevenbread/item/alarm/{itemCode}/{alarmStatus}")
+    public ResponseEntity updateSevenBreadItemAlarmStatus(
+            @PathVariable String itemCode,
+            @PathVariable String alarmStatus
+    ) {
+        Long id = sevenBreadV2Service.updateAlarmStatus(
+                itemCode,
+                alarmStatus
+        );
+
+        return ResponseEntity.ok()
+                .body(id);
+    }
+
     @PutMapping(value = "/v2/sevenbread/item/daily/chart")
     public ResponseEntity updateSevenBreadDailyChartTrace(
             final @RequestBody @Valid SevenBreadDailyChartTraceRequestDto sevenBreadDailyChartTraceRequestDto

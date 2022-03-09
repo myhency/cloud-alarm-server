@@ -1,5 +1,6 @@
 package cloud.stock.v2.sevenbread.ui.dto;
 
+import cloud.stock.v2.sevenbread.domain.strategy.AlarmStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,4 +18,5 @@ public class SevenBreadListResponseDto {
     private Integer capturedPrice;
     private Integer lowestPrice;
     private String majorHandler;
+    private String alarmStatus;
 }

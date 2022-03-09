@@ -12,7 +12,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPT
 
 GET http://localhost:8080/api/v1/platform/v2/sevenbread/item
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjM4OTQzODM2LCJleHAiOjE2MzkwMzAyMzZ9.vAty6zA9aY8JdBZNZ7JNAH0kTTKNXWRY99tiBdeY6Qs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjQ2NDAyMDIyLCJleHAiOjE2NDY0ODg0MjJ9.ME2nvlsGH_gtiBJ6kb8Ply3crwXBNE5ltNwBNuwhLRo
 
 ###
 

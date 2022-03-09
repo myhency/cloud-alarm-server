@@ -8,6 +8,7 @@ import cloud.stock.stockitem.infra.StockItemRepository;
 import cloud.stock.v2.sevenbread.domain.SevenBreadArchive;
 import cloud.stock.v2.sevenbread.domain.SevenBreadDailyTrace;
 import cloud.stock.v2.sevenbread.domain.SevenBreadWin;
+import cloud.stock.v2.sevenbread.domain.strategy.AlarmStatus;
 import cloud.stock.v2.sevenbread.infra.SevenBreadArchiveRepository;
 import cloud.stock.v2.sevenbread.infra.SevenBreadDailyTraceRepository;
 import cloud.stock.v2.sevenbread.infra.SevenBreadWinRepository;
@@ -108,6 +109,9 @@ public class SevenBreadV2Service {
                         break;
                     case 6:
                         sevenBreadListResponseDto.setMajorHandler((String)arrayList[i]);
+                        break;
+                    case 7:
+                        sevenBreadListResponseDto.setAlarmStatus((String)arrayList[i]);
                         break;
                     default:
                         break;
@@ -342,5 +346,14 @@ public class SevenBreadV2Service {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+    }
+
+    public Long updateAlarmStatus(String itemCode, String alarmStatus) {
+        SevenBread sevenBread = sevenBreadV2Repository.findByItemCode(itemCode)
+                .orElseThrow(NotExistStockItemException::new);
+
+        sevenBread.setAlarmStatus(alarmStatus.equals("ALARMED") ? AlarmStatus.ALARMED : AlarmStatus.LOSS_CUT);
+
+        return sevenBreadV2Repository.save(sevenBread).getId();
     }
 }

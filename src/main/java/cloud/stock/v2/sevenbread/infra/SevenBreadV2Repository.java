@@ -18,7 +18,8 @@ public interface SevenBreadV2Repository extends JpaRepository<SevenBread, Long> 
             "       sb.captured_date,\n" +
             "       sb.captured_price,\n" +
             "       sb.lowest_price,\n" +
-            "       sb.major_handler\n" +
+            "       sb.major_handler,\n" +
+            "       sb.alarm_status\n" +
             "       from seven_bread sb left outer join stock_item si\n" +
             "           on sb.item_code = si.item_code\n" +
             "order by sb.captured_date desc, sb.created_date desc", nativeQuery = true)

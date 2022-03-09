@@ -1,6 +1,7 @@
 package cloud.stock.v2.sevenbread.domain;
 
 import cloud.stock.util.BaseTimeEntity;
+import cloud.stock.v2.sevenbread.domain.strategy.AlarmStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,6 +28,8 @@ public class SevenBread extends BaseTimeEntity {
     private Double fluctuationRate;
     private String majorHandler;
     private String capturedDate;
+    @Enumerated(EnumType.STRING)
+    private AlarmStatus alarmStatus;
 
     public SevenBread(String itemCode,
                       String capturedDate,
@@ -34,6 +37,7 @@ public class SevenBread extends BaseTimeEntity {
         this.itemCode = itemCode;
         this.capturedDate = capturedDate;
         this.majorHandler = majorHandler;
+        this.alarmStatus = AlarmStatus.ON_LISTED;
     }
 
     public static SevenBread createSevenBreadCreationRequest(String itemCode,
