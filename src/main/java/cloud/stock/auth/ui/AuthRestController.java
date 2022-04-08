@@ -19,7 +19,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,10 +43,16 @@ public class AuthRestController {
 
     @PostMapping("/auth/join")
     public Long join(@RequestBody Map<String, String> user) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         return userRepository.save(User.builder()
         .userName(user.get("userName"))
         .password(passwordEncoder.encode(user.get("password")))
         .roles(Collections.singletonList("ROLE_USER"))
+        .createdAt(new Date())
+        .paymentStartDate(LocalDate.parse(user.get("paymentStartDate"), formatter))
+        .paymentEndDate(LocalDate.parse(user.get("paymentEndDate"), formatter))
+        .isPaid(!user.get("paymentStartDate").toString().isBlank())
         .build()).getId();
     }
 
