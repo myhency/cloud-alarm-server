@@ -1,34 +1,30 @@
 package cloud.stock.auth.ui;
 
+import cloud.stock.alarm.domain.exceptions.InvalidAlarmModificationDataException;
 import cloud.stock.auth.config.JwtTokenProvider;
 import cloud.stock.auth.domain.User;
 import cloud.stock.auth.domain.exceptions.LoginFailException;
 import cloud.stock.auth.domain.exceptions.UserNotExistsException;
 import cloud.stock.auth.infra.UserRepository;
+import cloud.stock.auth.ui.dto.EditUserRequestDto;
 import cloud.stock.auth.ui.dto.GetUserResponseDto;
+import cloud.stock.auth.ui.dto.GetUsersResponseDto;
 import cloud.stock.common.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,17 +37,18 @@ public class AuthRestController {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
 
-    @PostMapping("/auth/join")
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    @PostMapping("/admin/auth/join")
     public Long join(@RequestBody Map<String, String> user) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         return userRepository.save(User.builder()
         .userName(user.get("userName"))
         .password(passwordEncoder.encode(user.get("password")))
         .roles(Collections.singletonList("ROLE_USER"))
         .createdAt(new Date())
-        .paymentStartDate(LocalDate.parse(user.get("paymentStartDate"), formatter))
-        .paymentEndDate(LocalDate.parse(user.get("paymentEndDate"), formatter))
+        .paymentStartDate(user.get("paymentStartDate").isEmpty() ? null : LocalDate.parse(user.get("paymentStartDate"), formatter))
+        .paymentEndDate(user.get("paymentEndDate").isEmpty() ? null : LocalDate.parse(user.get("paymentEndDate"), formatter))
         .isPaid(!user.get("paymentStartDate").toString().isBlank())
         .build()).getId();
     }
@@ -101,5 +98,44 @@ public class AuthRestController {
                 .role(member.getRoles().get(0))
                 .build()
         ));
+    }
+
+    @GetMapping("/admin/users")
+    public ResponseEntity getUsers() {
+        List<GetUsersResponseDto> result = new ArrayList<>();
+        userRepository.findAll().forEach(user -> {
+            result.add(GetUsersResponseDto.builder()
+                .id(user.getId())
+                .createdAt(user.getCreatedAt().toString())
+                .isPaid(user.getIsPaid())
+                .paymentEndDate(user.getPaymentEndDate())
+                .paymentStartDate(user.getPaymentStartDate())
+                .role(user.getRoles().get(0))
+                .userName(user.getUsername())
+                .build());
+        });
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/admin/users/edit")
+    public ResponseEntity editUser(
+            @RequestBody EditUserRequestDto editUserRequestDto
+    ) {
+        User toBeUpdatedUser = userRepository.findById(editUserRequestDto.getId())
+                .orElseThrow(UserNotExistsException::new);
+        if (editUserRequestDto.getPassword() != null)
+            toBeUpdatedUser.setPassword(passwordEncoder.encode(editUserRequestDto.getPassword()));
+        if (editUserRequestDto.getPaymentEndDate() != null)
+            toBeUpdatedUser.setPaymentEndDate(LocalDate.parse(editUserRequestDto.getPaymentEndDate().substring(0, 10), formatter));
+        else
+            toBeUpdatedUser.setPaymentEndDate(null);
+        if (editUserRequestDto.getPaymentStartDate() != null)
+            toBeUpdatedUser.setPaymentStartDate(LocalDate.parse(editUserRequestDto.getPaymentStartDate().substring(0, 10), formatter));
+        else
+            toBeUpdatedUser.setPaymentStartDate(null);
+
+        toBeUpdatedUser.setRoles(Collections.singletonList(editUserRequestDto.getRole()));
+
+        return ResponseEntity.ok(userRepository.save(toBeUpdatedUser).getId());
     }
 }
