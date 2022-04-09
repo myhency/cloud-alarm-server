@@ -96,6 +96,7 @@ public class AuthRestController {
         return ResponseEntity.ok(new ResponseDto<>(GetUserResponseDto.builder()
                 .userName(member.getUsername())
                 .role(member.getRoles().get(0))
+                .paymentEndDate(member.getPaymentEndDate())
                 .build()
         ));
     }

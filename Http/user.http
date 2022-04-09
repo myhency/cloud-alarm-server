@@ -1,5 +1,5 @@
 GET http://localhost:8080/api/v1/platform/auth/user/my-info
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbG91ZCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2MzY3OTMyMTQsImV4cCI6MTYzNjg3OTYxNH0.qhunMcRYZthJQnh56A52JUT1hlXyRmKV4mkCCFJKxA8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MUB0ZXN0LmNvbSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2NDk0ODY3NjQsImV4cCI6MTY0OTU3MzE2NH0.sTS6xi7wUhGNjs3bmYu67JRwdFEmMHKYi9PtwzeJFtQ
 
 
 ###
@@ -20,7 +20,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPT
 
 ###
 PUT http://localhost:8080/api/v1/platform/admin/users/edit
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjQ5NDM4MDA2LCJleHAiOjE2NDk1MjQ0MDZ9.mAjh3eCI8Qn7oJxXZuOQD-KMoAhSJW1uQtuHDBfgSNo
+Authorization: Bearer       getUserList();
+
 Content-Type: application/json
 
 {
