@@ -6,7 +6,7 @@
 
 FROM openjdk:11-jdk as builder
 COPY . .
-RUN ./gradlew bootjar
+RUN ./gradlew bootjar --stacktrace clean
 
 FROM openjdk:11-jdk
 RUN mkdir -p /usr/src/app
