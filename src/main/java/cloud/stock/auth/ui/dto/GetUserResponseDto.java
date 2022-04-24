@@ -10,8 +10,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class GetUserResponseDto {
+    private Long id;
     private String userName;
     private String role;
     private String token;
     private LocalDate paymentEndDate;
+    private LocalDate paymentStartDate;
 }

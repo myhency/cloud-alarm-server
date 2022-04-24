@@ -66,9 +66,12 @@ public class AuthRestController {
                 .ok(new ResponseDto<>(GetUserResponseDto.builder()
                         .userName(member.getUsername())
                         .role(member.getRoles().get(0))
+                        .paymentStartDate(member.getPaymentStartDate())
+                        .paymentEndDate(member.getPaymentEndDate())
                         .token(jwtTokenProvider.createToken(
                                 member.getUsername(),
                                 member.getRoles()))
+                        .id(member.getId())
                         .build())
 
                 );
@@ -96,7 +99,9 @@ public class AuthRestController {
         return ResponseEntity.ok(new ResponseDto<>(GetUserResponseDto.builder()
                 .userName(member.getUsername())
                 .role(member.getRoles().get(0))
+                .paymentStartDate(member.getPaymentStartDate())
                 .paymentEndDate(member.getPaymentEndDate())
+                .id(member.getId())
                 .build()
         ));
     }
@@ -126,11 +131,11 @@ public class AuthRestController {
                 .orElseThrow(UserNotExistsException::new);
         if (editUserRequestDto.getPassword() != null)
             toBeUpdatedUser.setPassword(passwordEncoder.encode(editUserRequestDto.getPassword()));
-        if (editUserRequestDto.getPaymentEndDate() != null)
+        if (editUserRequestDto.getPaymentEndDate() != null && !editUserRequestDto.getPaymentEndDate().equals(""))
             toBeUpdatedUser.setPaymentEndDate(LocalDate.parse(editUserRequestDto.getPaymentEndDate().substring(0, 10), formatter));
         else
             toBeUpdatedUser.setPaymentEndDate(null);
-        if (editUserRequestDto.getPaymentStartDate() != null)
+        if (editUserRequestDto.getPaymentStartDate() != null && !editUserRequestDto.getPaymentStartDate().equals(""))
             toBeUpdatedUser.setPaymentStartDate(LocalDate.parse(editUserRequestDto.getPaymentStartDate().substring(0, 10), formatter));
         else
             toBeUpdatedUser.setPaymentStartDate(null);
