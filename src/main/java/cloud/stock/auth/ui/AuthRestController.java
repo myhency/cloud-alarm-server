@@ -81,7 +81,7 @@ public class AuthRestController {
     @Operation(summary = "비밀번호변경", description = "비밀번호변경 API 입니다.")
     public Long changePassword(@RequestBody Map<String, String> user) {
         User member = userRepository.findByUserName(user.get("userName"))
-                .orElseThrow(() -> new UserNotExistsException());
+                .orElseThrow(UserNotExistsException::new);
 
         member.setPassword(passwordEncoder.encode(user.get("password")));
         return userRepository.save(member).getId();

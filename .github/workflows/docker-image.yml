@@ -27,6 +27,6 @@ jobs:
         NAME: hencyyeo
         REPO: cloud-alarm-server-renewal
       run: |
-        docker build --platform linux/amd64 -t $REPO:v0.0.5-rc03 .
-        docker tag $REPO:v0.0.5-rc03 $NAME/$REPO:v0.0.5-rc03
-        docker push $NAME/$REPO:v0.0.5-rc03
+        docker build --platform linux/amd64 -t $REPO:v0.0.5-rc04 .
+        docker tag $REPO:v0.0.5-rc04 $NAME/$REPO:v0.0.5-rc04
+        docker push $NAME/$REPO:v0.0.5-rc04
