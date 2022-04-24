@@ -53,3 +53,8 @@ flyway {
     url = 'jdbc:h2:~/data/cloudstock'
     user = 'sa'
 }
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:unchecked'
+    options.deprecation = true
+}

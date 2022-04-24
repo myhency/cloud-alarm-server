@@ -83,7 +83,7 @@ public class SevenBreadV2Service {
 
     public List<SevenBreadListResponseDto> list() {
         List<SevenBreadListResponseDto> result = new ArrayList<>();
-        List<Object> obj = (List)sevenBreadV2Repository.findAllItems();
+        List<Object> obj = (List<Object>)sevenBreadV2Repository.findAllItems();
         obj.stream().forEach((item) -> {
             SevenBreadListResponseDto sevenBreadListResponseDto = new SevenBreadListResponseDto();
             Object[] arrayList = (Object[])item;

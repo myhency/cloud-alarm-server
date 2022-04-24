@@ -34,7 +34,7 @@ public class ThemeCategoryService {
 
     public List<ThemeCategoryByDateResponse> getCategoryCountByDate(final String dateStr) {
         List<ThemeCategoryByDateResponse> categoryCountByDateList = new ArrayList<>();
-        List<Object> obj = (List)themeCategoryRepository.findThemeCategoriesByDate(dateStr);
+        List<Object> obj = (List<Object>)themeCategoryRepository.findThemeCategoriesByDate(dateStr);
 
         if (obj.size() == 0) {
             throw new EmptyResultDataAccessException(ErrorCode.EMPTY_RESULT);
@@ -65,7 +65,7 @@ public class ThemeCategoryService {
 
     public List<ThemeCategoryByDateResponse> getCategoryCountByItemCodes(List<String> itemCodes) {
         List<ThemeCategoryByDateResponse> categoryCountByDateList = new ArrayList<>();
-        List<Object> obj = (List)themeCategoryRepository.findThemeCategoriesByItemCodes(itemCodes);
+        List<Object> obj = (List<Object>)themeCategoryRepository.findThemeCategoriesByItemCodes(itemCodes);
 
         if (obj.size() == 0) {
             throw new EmptyResultDataAccessException(ErrorCode.EMPTY_RESULT);

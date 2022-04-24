@@ -53,7 +53,7 @@ public class SevenBreadHistoryService {
 
     public List<SevenBreadStatisticsHistoryResponseDto> getStatistics() {
         List<SevenBreadStatisticsHistoryResponseDto> result = new ArrayList<>();
-        List<Object> obj = (List)sevenBreadHistoryRepository.findSevenBreadItemHistoriesWithBenefit();
+        List<Object> obj = (List<Object>)sevenBreadHistoryRepository.findSevenBreadItemHistoriesWithBenefit();
         obj.stream().forEach((item) -> {
             SevenBreadStatisticsHistoryResponseDto sevenBreadStatisticsHistoryResponseDto = new SevenBreadStatisticsHistoryResponseDto();
             Object[] arrayList = (Object[])item;

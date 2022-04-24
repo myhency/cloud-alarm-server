@@ -62,7 +62,7 @@ public class VolumeService {
     }
 
     public List<String> dateList() {
-        return (List)volumeRepository.findAllDates();
+        return (List<String>)volumeRepository.findAllDates();
     }
 
     public List<Volume> detailList(String date) {
