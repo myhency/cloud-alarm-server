@@ -15,6 +15,7 @@ public class GetUsersResponseDto {
     private String role;
     private String createdAt;
     private Boolean isPaid;
+    private String memo;
     private LocalDate paymentStartDate;
     private LocalDate paymentEndDate;
 }

@@ -25,4 +25,6 @@ public class EditUserRequestDto {
     private String paymentStartDate;
 
     private String paymentEndDate;
+
+    private String memo;
 }

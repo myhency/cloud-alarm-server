@@ -43,6 +43,9 @@ public class User implements UserDetails {
     @Column(nullable = true)
     private LocalDate paymentEndDate;
 
+    @Column(nullable = true)
+    private String memo;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();

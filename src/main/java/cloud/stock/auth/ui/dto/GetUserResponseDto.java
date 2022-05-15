@@ -16,4 +16,5 @@ public class GetUserResponseDto {
     private String token;
     private LocalDate paymentEndDate;
     private LocalDate paymentStartDate;
+    private String memo;
 }

@@ -12,10 +12,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(
-        name = "item_code_unique",
-        columnNames = {"item_code","closing_date"}
-)})
 public class SevenBreadArchive {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

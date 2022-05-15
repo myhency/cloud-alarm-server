@@ -50,6 +50,7 @@ public class AuthRestController {
         .paymentStartDate(user.get("paymentStartDate").isEmpty() ? null : LocalDate.parse(user.get("paymentStartDate"), formatter))
         .paymentEndDate(user.get("paymentEndDate").isEmpty() ? null : LocalDate.parse(user.get("paymentEndDate"), formatter))
         .isPaid(!user.get("paymentStartDate").toString().isBlank())
+        .memo(user.get("memo"))
         .build()).getId();
     }
 
@@ -101,6 +102,7 @@ public class AuthRestController {
                 .role(member.getRoles().get(0))
                 .paymentStartDate(member.getPaymentStartDate())
                 .paymentEndDate(member.getPaymentEndDate())
+                .memo(member.getMemo())
                 .id(member.getId())
                 .build()
         ));
@@ -116,6 +118,7 @@ public class AuthRestController {
                 .isPaid(user.getIsPaid())
                 .paymentEndDate(user.getPaymentEndDate())
                 .paymentStartDate(user.getPaymentStartDate())
+                .memo(user.getMemo())
                 .role(user.getRoles().get(0))
                 .userName(user.getUsername())
                 .build());
@@ -141,6 +144,7 @@ public class AuthRestController {
             toBeUpdatedUser.setPaymentStartDate(null);
 
         toBeUpdatedUser.setRoles(Collections.singletonList(editUserRequestDto.getRole()));
+        toBeUpdatedUser.setMemo(editUserRequestDto.getMemo());
 
         return ResponseEntity.ok(userRepository.save(toBeUpdatedUser).getId());
     }
