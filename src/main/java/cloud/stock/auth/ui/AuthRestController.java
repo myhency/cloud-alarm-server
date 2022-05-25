@@ -4,6 +4,7 @@ import cloud.stock.alarm.domain.exceptions.InvalidAlarmModificationDataException
 import cloud.stock.auth.config.JwtTokenProvider;
 import cloud.stock.auth.domain.User;
 import cloud.stock.auth.domain.exceptions.LoginFailException;
+import cloud.stock.auth.domain.exceptions.UserDuplicatedException;
 import cloud.stock.auth.domain.exceptions.UserNotExistsException;
 import cloud.stock.auth.infra.UserRepository;
 import cloud.stock.auth.ui.dto.EditUserRequestDto;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import javassist.tools.web.BadHttpRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,6 +43,10 @@ public class AuthRestController {
 
     @PostMapping("/admin/auth/join")
     public Long join(@RequestBody Map<String, String> user) {
+        userRepository.findByUserName(user.get("userName")).ifPresent(_user -> {
+            throw new UserDuplicatedException();
+        });
+
 
         return userRepository.save(User.builder()
         .userName(user.get("userName"))

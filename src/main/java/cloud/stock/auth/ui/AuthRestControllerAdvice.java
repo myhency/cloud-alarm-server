@@ -1,6 +1,7 @@
 package cloud.stock.auth.ui;
 
 import cloud.stock.auth.domain.exceptions.LoginFailException;
+import cloud.stock.auth.domain.exceptions.UserDuplicatedException;
 import cloud.stock.common.ResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,5 +18,12 @@ public class AuthRestControllerAdvice {
     @ExceptionHandler(LoginFailException.class)
     public ResponseEntity handleLoginFailException() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDto<>("LoginFailException"));
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(UserDuplicatedException.class)
+    public ResponseEntity handleUserDuplicatedException() {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResponseDto<>("User duplicated"));
     }
 }
