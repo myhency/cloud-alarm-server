@@ -28,5 +28,5 @@ jobs:
         REPO: cloud-alarm-server-renewal
       run: |
         docker build --platform linux/amd64 -t $REPO:v0.0.5-rc09 .
-        docker tag $REPO:v0.0.5-rc09 $NAME/$REPO:v0.0.6-rc09
+        docker tag $REPO:v0.0.5-rc09 $NAME/$REPO:v0.0.5-rc09
         docker push $NAME/$REPO:v0.0.5-rc09
