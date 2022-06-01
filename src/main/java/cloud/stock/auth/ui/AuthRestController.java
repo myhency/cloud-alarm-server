@@ -53,6 +53,7 @@ public class AuthRestController {
         .password(passwordEncoder.encode(user.get("password")))
         .roles(Collections.singletonList("ROLE_USER"))
         .createdAt(new Date())
+        .updatedAt(new Date())
         .paymentStartDate(user.get("paymentStartDate").isEmpty() ? null : LocalDate.parse(user.get("paymentStartDate"), formatter))
         .paymentEndDate(user.get("paymentEndDate").isEmpty() ? null : LocalDate.parse(user.get("paymentEndDate"), formatter))
         .isPaid(!user.get("paymentStartDate").toString().isBlank())
@@ -121,6 +122,7 @@ public class AuthRestController {
             result.add(GetUsersResponseDto.builder()
                 .id(user.getId())
                 .createdAt(user.getCreatedAt().toString())
+                .updatedAt(user.getUpdatedAt().toString())
                 .isPaid(user.getIsPaid())
                 .paymentEndDate(user.getPaymentEndDate())
                 .paymentStartDate(user.getPaymentStartDate())
@@ -151,6 +153,7 @@ public class AuthRestController {
 
         toBeUpdatedUser.setRoles(Collections.singletonList(editUserRequestDto.getRole()));
         toBeUpdatedUser.setMemo(editUserRequestDto.getMemo());
+        toBeUpdatedUser.setUpdatedAt(new Date());
 
         return ResponseEntity.ok(userRepository.save(toBeUpdatedUser).getId());
     }

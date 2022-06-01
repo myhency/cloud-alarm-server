@@ -34,6 +34,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Date createdAt;
 
+    @Column(nullable = false)
+    private Date updatedAt;
+
     @Column(nullable = true)
     private Boolean isPaid;
 
