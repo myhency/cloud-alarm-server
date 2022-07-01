@@ -1,0 +1,24 @@
+PUT http://localhost:8080/api/v1/platform/alarm/stockItem/buy/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbG91ZCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2MjI3MjQyNzIsImV4cCI6MTYyMjgxMDY3Mn0.M7n5M2SwepebZAkukv7JGtsmf5LUMqJThXVcnjP0_iA
+
+###
+
+PUT http://localhost:8080/api/v1/platform/alarm/stockItem/losscut/13
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbG91ZCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2MjI1NTI1OTksImV4cCI6MTYyMjYzODk5OX0.cC3vN54df_Pik3A0i1hFdHsGbLX9cbdKBdiNO4QKKhA
+
+###
+
+GET http://localhost:8080/api/v1/platform/alarm/history?status=ALARMED
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbG91ZCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2MjI4MTcwNjYsImV4cCI6MTYyMjkwMzQ2Nn0.6gcI769ZyCLAVvuCz3ug89pgi2dhalgbPWzTybVpWjI
+
+###
+
+GET http://localhost:8080/api/v1/platform/admin/link/bigpie
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjU2NjkwMzc1LCJleHAiOjE2NTY3NzY3NzV9.Ta3cpTX70tzLux2JupTXNxSZmKqS9ESv8OkVP4xfJEw
+
+###
+
+GET http://localhost:8080/api/v1/platform/admin/link/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjU2NjkwMzc1LCJleHAiOjE2NTY3NzY3NzV9.Ta3cpTX70tzLux2JupTXNxSZmKqS9ESv8OkVP4xfJEw
+
+###
