@@ -59,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/platform/alarm/**").permitAll()
                 .antMatchers("/api/v1/platform/stockItem/**").permitAll()
                 .antMatchers("/api/v1/platform/analyze/**").permitAll()
+                .antMatchers("/api/v1/platform/admin/link/all").permitAll()
                 .antMatchers("/api/v1/platform/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
