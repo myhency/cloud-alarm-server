@@ -1,17 +1,15 @@
 package cloud.stock.analyze.domain.volume;
 
 import cloud.stock.util.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 public class Volume extends BaseTimeEntity {
     @Id

@@ -3,12 +3,17 @@ package cloud.stock.stockitem.app;
 import cloud.stock.alarm.domain.alarm.Alarm;
 import cloud.stock.alarm.infra.AlarmRepository;
 import cloud.stock.stockitem.domain.StockItem;
+import cloud.stock.stockitem.domain.exceptions.AlreadyExistStockItemException;
+import cloud.stock.stockitem.domain.exceptions.NotExistStockItemException;
 import cloud.stock.stockitem.infra.StockItemDao;
 import cloud.stock.stockitem.infra.StockItemRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class StockItemService {
@@ -24,9 +29,13 @@ public class StockItemService {
     }
 
     @Transactional
-    public StockItem create(final StockItem stockItem) {
+    public StockItem create(final StockItem newStockItem) {
+        stockItemRepository.findByItemCode(newStockItem.getItemCode())
+                .ifPresent(it -> {
+                    throw new AlreadyExistStockItemException();
+                });
 
-        return stockItemRepository.save(stockItem);
+        return stockItemRepository.save(newStockItem);
     }
 
     @Transactional
@@ -41,8 +50,8 @@ public class StockItemService {
         return savedStockItem;
     }
 
-    public List<StockItem> list() {
-        return stockItemRepository.findAll();
+    public Page<StockItem> list(final Pageable pageable) {
+        return stockItemRepository.findAll(pageable);
     }
 
     public StockItem selectThemeByItemCode(String itemCode) {
@@ -61,5 +70,20 @@ public class StockItemService {
         toBeChanged.setItemName(stockItem.getItemName());
 
         return stockItemRepository.save(toBeChanged);
+    }
+
+    public StockItem getStockItemByItemCode(String itemCode) {
+        return stockItemRepository.findByItemCode(itemCode)
+                .orElseThrow(NotExistStockItemException::new);
+    }
+
+    @Transactional
+    public Long modify(StockItem stockItem) {
+        StockItem toBeChanged = stockItemRepository.findByItemCode(stockItem.getItemCode())
+                .orElseGet(() -> stockItemRepository.save(stockItem));
+
+        toBeChanged.setTheme(stockItem.getTheme());
+
+        return stockItemRepository.save(toBeChanged).getId();
     }
 }

@@ -1,0 +1,74 @@
+POST http://localhost:8080/api/v1/platform/v2/sevenbread/item
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjM4NzYyMjMyLCJleHAiOjE2Mzg4NDg2MzJ9.igQ-SDs7U3vH7IU2b5mXjTcjE41s_grgq7BmnTZruG4
+
+{
+  "itemCode" : "005930",
+  "capturedDate": "2021-12-04",
+  "majorHandler": "G"
+}
+
+###
+
+GET http://localhost:8080/api/v1/platform/v2/sevenbread/item
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjQ2NDAyMDIyLCJleHAiOjE2NDY0ODg0MjJ9.ME2nvlsGH_gtiBJ6kb8Ply3crwXBNE5ltNwBNuwhLRo
+
+###
+
+PUT http://localhost:8080/api/v1/platform/v2/sevenbread/item/000660
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjM4OTQzODM2LCJleHAiOjE2MzkwMzAyMzZ9.vAty6zA9aY8JdBZNZ7JNAH0kTTKNXWRY99tiBdeY6Qs
+
+{
+  "capturedPrice" : 123000,
+  "lowestPrice" : 110000
+}
+
+###
+
+PUT http://localhost:8080/api/v1/platform/v2/sevenbread/item/daily/chart
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjM5MzA1ODQ3LCJleHAiOjE2MzkzOTIyNDd9.UPW0wIc6tR34K57e8-2OmGO82mFUZ1tD5iDQhob_9uk
+
+{
+  "itemCode": "005930",
+  "closingDate": "2021-12-08",
+  "closingPrice": 76900,
+  "highestPrice": 77600,
+  "lowestPrice": 76800
+}
+
+###
+
+PUT http://localhost:8080/api/v1/platform/v2/sevenbread/item/daily/buying
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjM5NDAwNjY0LCJleHAiOjE2Mzk0ODcwNjR9.9ExND-Vanxr57AEJCHi6BvxjBF8vck11_uHxP6iR7yo
+
+{
+  "itemCode": "000990",
+  "closingDate": "20211122",
+  "wBuyAmount": 76900,
+  "gBuyAmount": 77600,
+  "pBuyAmount": 76800
+}
+
+###
+
+GET http://localhost:8080/api/v1/platform/v2/sevenbread/item/041510
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjM5NzQ5NzQwLCJleHAiOjE2Mzk4MzYxNDB9.IESqGroI5sLTbX0dMBp3-XQm5cHffkrtScG4zBzqnpQ
+
+###
+
+PUT http://localhost:8080/api/v1/platform/v2/sevenbread/item/trace
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjM5ODkwNjcyLCJleHAiOjE2Mzk5NzcwNzJ9.wzEZNUsZl3WjztoQA2JQm-ganwlD6AGBt_x5dkXAWWA
+
+{
+  "itemCode": "080580",
+  "reoccurDateList": ["2021-12-10"]
+}
+
+###
+

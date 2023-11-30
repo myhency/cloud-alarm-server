@@ -1,0 +1,20 @@
+spring:
+  kafka:
+    bootstrap-servers: 34.64.196.103:29093
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  datasource:
+    url: jdbc:mysql://34.64.196.103:3377/clouddb?useUnicoe=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: UfzEhOpHP36qhsx
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+logging:
+  level:
+    jdbc: trace
+    root: INFO
+server:
+  port: 8081

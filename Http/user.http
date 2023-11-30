@@ -1,0 +1,34 @@
+GET http://localhost:8080/api/v1/platform/auth/user/my-info
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE2Nzc3NjIzODcsImV4cCI6MTY3Nzg0ODc4N30.VC8-GS4CIM3sSFTKUYJi41fPvzVS37wDd-v2fXdBWrg
+
+
+###
+POST http://localhost:8080/api/v1/platform/admin/auth/join
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjQ5NDM4MDA2LCJleHAiOjE2NDk1MjQ0MDZ9.mAjh3eCI8Qn7oJxXZuOQD-KMoAhSJW1uQtuHDBfgSNo
+Content-Type: application/json
+
+{
+  "userName": "test1@test.com",
+  "password": "test1@test.com",
+  "paymentStartDate": "",
+  "paymentEndDate": ""
+}
+
+###
+GET http://localhost:8080/api/v1/platform/admin/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWF0IjoxNjQ5NDM4MDA2LCJleHAiOjE2NDk1MjQ0MDZ9.mAjh3eCI8Qn7oJxXZuOQD-KMoAhSJW1uQtuHDBfgSNo
+
+###
+PUT http://localhost:8080/api/v1/platform/admin/users/edit
+Authorization: Bearer       getUserList();
+
+Content-Type: application/json
+
+{
+  "id": 8,
+  "userName": "test@test.com",
+  "password": null,
+  "paymentStartDate": "2022-03-01",
+  "paymentEndDate": "2022-03-01",
+  "role": "ROLE_USER"
+}

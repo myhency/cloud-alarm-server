@@ -148,4 +148,13 @@ public class AnalyzeRestController {
         return ResponseEntity.ok()
                 .body(new ResponseDto<>(volumeService.getAnalyzeVolueByTheme(filter)));
     }
+
+    @GetMapping("/analyze/volume/category")
+    public ResponseEntity selectAnalyzedVolumeByCategory(
+            @RequestParam(value = "categoryName") String categoryName,
+            @RequestParam(value = "dateStr") String dateStr
+    ) {
+        return ResponseEntity.ok()
+                .body(new ResponseDto<>(volumeService.getAnalzeVolumeByCategoryName(dateStr, categoryName)));
+    }
 }

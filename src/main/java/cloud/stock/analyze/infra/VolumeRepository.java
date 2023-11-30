@@ -50,7 +50,7 @@ public interface VolumeRepository extends JpaRepository<Volume, Long> {
             "si.theme as theme\n" +
             "FROM volume v left outer join stock_item si " +
             "on v.item_code = si.item_code\n" +
-            "WHERE v.item_name = :itemName " +
+            "WHERE v.item_name like %:itemName% " +
             "ORDER BY created_date DESC ", nativeQuery = true)
     List<Volume> findAllByItemName(@Param("itemName") String itemName);
 
@@ -71,4 +71,14 @@ public interface VolumeRepository extends JpaRepository<Volume, Long> {
             "WHERE si.theme like %:theme% " +
             "ORDER BY created_date DESC ", nativeQuery = true)
     List<Volume> findAllByTheme(@Param("theme") String theme);
+
+    @Query(value = "select a.id, a.created_date, a.modified_date, a.closing_price, a.fluctuation_rate, a.item_code, a.item_name,\n" +
+            " a.market_cap, a.number_of_outstanding_shares, a.volume, a.market_type, b.theme\n" +
+            "    from (\n" +
+            "\t\tselect * from clouddb.volume where date_format(:dateStr, '%Y-%m-%d') +  interval 1 day > created_date\n" +
+            "    and created_date > date_format(:dateStr, '%Y-%m-%d')\n" +
+            "    ) a inner join clouddb.theme_category b\n" +
+            "    on a.item_code = b.item_code\n" +
+            "    where b.category_name in (:categoryName)", nativeQuery = true)
+    List<Volume> findAllByCategoryName(@Param("dateStr") String dateStr, @Param("categoryName") String categoryName);
 }

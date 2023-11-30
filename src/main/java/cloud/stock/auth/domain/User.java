@@ -6,8 +6,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,24 @@ public class User implements UserDetails {
 
     @Column(length = 255, nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private Date createdAt;
+
+    @Column(nullable = false)
+    private Date updatedAt;
+
+    @Column(nullable = true)
+    private Boolean isPaid;
+
+    @Column(nullable = true)
+    private LocalDate paymentStartDate;
+
+    @Column(nullable = true)
+    private LocalDate paymentEndDate;
+
+    @Column(nullable = true)
+    private String memo;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
