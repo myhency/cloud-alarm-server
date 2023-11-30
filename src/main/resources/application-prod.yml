@@ -5,9 +5,9 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   datasource:
-    url: jdbc:mysql://34.64.196.103:3307/clouddb?useUnicoe=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://34.64.196.103:3377/clouddb?useUnicoe=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: root
-    password: P!ssw0rd
+    password: UfzEhOpHP36qhsx
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
